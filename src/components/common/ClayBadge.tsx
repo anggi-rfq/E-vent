@@ -16,9 +16,9 @@ export const ClayBadge: React.FC<ClayBadgeProps> = ({
   id,
 }) => {
   const sizeClasses = {
-    sm: 'text-[11px] px-2.5 py-0.5 tracking-tight',
-    md: 'text-xs px-3 py-1',
-    lg: 'text-sm px-4 py-1.5 font-bold',
+    sm: 'text-[11px] px-2 py-0.5 font-medium rounded-md',
+    md: 'text-xs px-2.5 py-0.5 font-medium rounded-md',
+    lg: 'text-sm px-3 py-1 font-semibold rounded-lg',
   };
 
   const variantClasses = {
@@ -28,7 +28,7 @@ export const ClayBadge: React.FC<ClayBadgeProps> = ({
     amber: 'clay-pill-amber',
     rose: 'clay-pill-rose',
     purple: 'clay-pill-purple',
-    slate: 'bg-slate-200 text-slate-700 shadow-[3px_3px_6px_#cbd5e1,-2px_-2px_5px_#ffffff]',
+    slate: 'bg-slate-100 text-slate-700 border border-slate-200',
   };
 
   return (
@@ -48,27 +48,31 @@ export const PriorityBadge: React.FC<{ priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'UR
   switch (priority) {
     case 'URGENT':
       return (
-        <ClayBadge id={id} variant="rose" size="sm" className="font-bold border border-rose-300">
-          🔥 URGENT
+        <ClayBadge id={id} variant="rose" size="sm" className="font-semibold">
+          <span className="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5 inline-block" />
+          Urgent
         </ClayBadge>
       );
     case 'HIGH':
       return (
-        <ClayBadge id={id} variant="amber" size="sm" className="font-semibold">
-          ⚡ TINGGI
+        <ClayBadge id={id} variant="amber" size="sm" className="font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5 inline-block" />
+          Tinggi
         </ClayBadge>
       );
     case 'MEDIUM':
       return (
-        <ClayBadge id={id} variant="blue" size="sm">
-          ⏳ SEDANG
+        <ClayBadge id={id} variant="blue" size="sm" className="font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5 inline-block" />
+          Sedang
         </ClayBadge>
       );
     case 'LOW':
     default:
       return (
-        <ClayBadge id={id} variant="green" size="sm">
-          🌱 RENDAH
+        <ClayBadge id={id} variant="green" size="sm" className="font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 inline-block" />
+          Rendah
         </ClayBadge>
       );
   }
@@ -81,27 +85,31 @@ export const StatusBadge: React.FC<{ status: 'TODO' | 'IN_PROGRESS' | 'IN_REVIEW
   switch (status) {
     case 'COMPLETED':
       return (
-        <ClayBadge id={id} variant="green" size="sm" className="font-bold">
-          ✓ SELESAI
+        <ClayBadge id={id} variant="green" size="sm" className="font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 inline-block" />
+          Selesai
         </ClayBadge>
       );
     case 'IN_REVIEW':
       return (
-        <ClayBadge id={id} variant="purple" size="sm" className="font-semibold">
-          👁️ IN REVIEW
+        <ClayBadge id={id} variant="purple" size="sm" className="font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mr-1.5 inline-block" />
+          In Review
         </ClayBadge>
       );
     case 'IN_PROGRESS':
       return (
-        <ClayBadge id={id} variant="blue" size="sm" className="font-semibold">
-          🔄 PROGRES
+        <ClayBadge id={id} variant="blue" size="sm" className="font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5 inline-block" />
+          Progres
         </ClayBadge>
       );
     case 'TODO':
     default:
       return (
-        <ClayBadge id={id} variant="amber" size="sm">
-          📋 TO DO
+        <ClayBadge id={id} variant="amber" size="sm" className="font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5 inline-block" />
+          To Do
         </ClayBadge>
       );
   }
@@ -114,27 +122,27 @@ export const RoleBadge: React.FC<{ role: 'ADMIN' | 'EVENT_MANAGER' | 'COORDINATO
   switch (role) {
     case 'ADMIN':
       return (
-        <ClayBadge id={id} variant="purple" size="sm" className="font-extrabold uppercase">
-          🛡️ Admin
+        <ClayBadge id={id} variant="purple" size="sm" className="font-semibold">
+          Admin
         </ClayBadge>
       );
     case 'EVENT_MANAGER':
       return (
-        <ClayBadge id={id} variant="rose" size="sm" className="font-bold uppercase">
-          👑 Ketua Panitia
+        <ClayBadge id={id} variant="rose" size="sm" className="font-semibold">
+          Ketua Panitia
         </ClayBadge>
       );
     case 'COORDINATOR':
       return (
-        <ClayBadge id={id} variant="blue" size="sm" className="font-semibold uppercase">
-          ⭐ Koordinator
+        <ClayBadge id={id} variant="blue" size="sm" className="font-medium">
+          Koordinator
         </ClayBadge>
       );
     case 'MEMBER':
     default:
       return (
-        <ClayBadge id={id} variant="green" size="sm">
-          👤 Anggota
+        <ClayBadge id={id} variant="slate" size="sm" className="font-medium">
+          Anggota
         </ClayBadge>
       );
   }

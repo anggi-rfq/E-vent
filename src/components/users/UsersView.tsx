@@ -7,16 +7,11 @@ import { User, UserRole } from '../../types';
 import { 
   Users, 
   UserPlus, 
-  Shield, 
   Mail, 
   Phone, 
-  Building2, 
   Edit, 
   Trash2, 
-  KeyRound, 
-  Check,
-  Search,
-  RotateCcw
+  Search
 } from 'lucide-react';
 
 export const UsersView: React.FC = () => {
@@ -108,16 +103,16 @@ export const UsersView: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="clay-card p-5 sm:p-6 bg-gradient-to-r from-[#F0F4FF] via-[#E9F0FD] to-[#E6EEFA] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-white border border-slate-200/80 rounded-xl p-5 sm:p-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-[#DDD6FE] text-[#6D28D9] flex items-center justify-center shadow-md">
-            <Users className="w-6 h-6" />
+          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+            <Users className="w-5 h-5" />
           </div>
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#6D28D9] block mb-0.5">
+            <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400 block mb-0.5">
               Manajemen Pengguna
             </span>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#2D3748] font-display">
+            <h2 className="text-lg sm:text-xl font-semibold text-slate-900 font-display">
               Direktori Pengguna & Hak Akses
             </h2>
           </div>
@@ -136,7 +131,7 @@ export const UsersView: React.FC = () => {
       </div>
 
       {/* Filter Bar */}
-      <div className="clay-card p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="bg-white border border-slate-200/80 rounded-xl p-4 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="relative w-full sm:w-80">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
@@ -152,7 +147,7 @@ export const UsersView: React.FC = () => {
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
-            className="clay-input px-3 py-2 text-xs text-slate-800 font-bold w-full sm:w-auto"
+            className="clay-input px-3 py-2 text-xs text-slate-800 font-medium w-full sm:w-auto"
           >
             <option value="ALL">Semua Peran / Role</option>
             <option value="ADMIN">Administrator</option>
@@ -171,8 +166,8 @@ export const UsersView: React.FC = () => {
           return (
             <div
               key={user.id}
-              className={`clay-card p-6 flex flex-col justify-between transition-all ${
-                isMe ? 'ring-2 ring-indigo-500 bg-indigo-50/20 shadow-indigo-100' : 'hover:scale-[1.01]'
+              className={`bg-white border rounded-xl p-5 shadow-xs flex flex-col justify-between transition-colors ${
+                isMe ? 'border-indigo-500 bg-indigo-50/15' : 'border-slate-200/80 hover:border-slate-300'
               }`}
             >
               <div>
@@ -181,29 +176,29 @@ export const UsersView: React.FC = () => {
                   <img
                     src={user.avatar}
                     alt={user.name}
-                    className="w-14 h-14 rounded-2xl object-cover border-2 border-white shadow-md"
+                    className="w-12 h-12 rounded-xl object-cover border border-slate-200"
                   />
 
                   <div className="flex flex-col items-end gap-1">
                     <RoleBadge role={user.role} />
                     {isMe && (
-                      <span className="text-[10px] font-extrabold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-full">
-                        Akun Aktif Anda
+                      <span className="text-[10px] font-medium text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-md">
+                        Akun Anda
                       </span>
                     )}
                   </div>
                 </div>
 
-                <h3 className="text-lg font-extrabold text-slate-800 font-display">
+                <h3 className="text-base font-semibold text-slate-900 font-display">
                   {user.name}
                 </h3>
 
-                <p className="text-xs text-indigo-600 font-bold mt-0.5">
+                <p className="text-xs text-indigo-600 font-medium mt-0.5">
                   {user.department || 'BEM / Panitia Universitas'}
                 </p>
 
                 {/* Contact info */}
-                <div className="space-y-2 mt-4 text-xs text-slate-600">
+                <div className="space-y-1.5 mt-3.5 text-xs text-slate-600">
                   <div className="flex items-center gap-2">
                     <Mail className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                     <span className="truncate">{user.email}</span>
@@ -219,16 +214,16 @@ export const UsersView: React.FC = () => {
               </div>
 
               {/* Actions Footer */}
-              <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
                 {!isMe ? (
                   <button
                     onClick={() => switchUser(user.id)}
-                    className="clay-pill-blue text-xs px-3 py-1.5 font-bold hover:bg-indigo-600 hover:text-white transition-colors"
+                    className="text-xs px-2.5 py-1 font-medium rounded-md bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors"
                   >
-                    Beralih ke Akun Ini
+                    Beralih Akun
                   </button>
                 ) : (
-                  <span className="text-xs font-bold text-slate-400">
+                  <span className="text-xs font-medium text-slate-400">
                     Sedang Digunakan
                   </span>
                 )}
@@ -237,7 +232,7 @@ export const UsersView: React.FC = () => {
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => handleOpenEdit(user)}
-                      className="w-8 h-8 rounded-xl clay-btn-secondary flex items-center justify-center text-slate-500 hover:text-indigo-600"
+                      className="w-7 h-7 rounded-md border border-slate-200 hover:bg-slate-50 flex items-center justify-center text-slate-500 hover:text-indigo-600"
                       title="Edit Akun"
                     >
                       <Edit className="w-3.5 h-3.5" />
@@ -245,7 +240,7 @@ export const UsersView: React.FC = () => {
                     {!isMe && (
                       <button
                         onClick={() => handleDelete(user.id, user.name)}
-                        className="w-8 h-8 rounded-xl clay-btn-secondary flex items-center justify-center text-slate-500 hover:text-rose-600"
+                        className="w-7 h-7 rounded-md border border-slate-200 hover:bg-slate-50 flex items-center justify-center text-slate-500 hover:text-rose-600"
                         title="Hapus Akun"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -269,7 +264,7 @@ export const UsersView: React.FC = () => {
       >
         <form onSubmit={handleSubmit} className="space-y-4 py-2">
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1.5">
               Nama Lengkap *
             </label>
             <input
@@ -278,12 +273,12 @@ export const UsersView: React.FC = () => {
               placeholder="Contoh: Sarah Nurhaliza, S.Kom"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full clay-input p-3 text-sm text-slate-800 font-semibold"
+              className="w-full clay-input p-3 text-sm text-slate-800"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1.5">
               Alamat Email *
             </label>
             <input
@@ -292,19 +287,19 @@ export const UsersView: React.FC = () => {
               placeholder="sarah@event.id"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full clay-input p-3 text-sm text-slate-800 font-medium"
+              className="w-full clay-input p-3 text-sm text-slate-800"
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1.5">
                 Peran / Role Sistem *
               </label>
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value as UserRole)}
-                className="w-full clay-input p-3 text-sm text-slate-800 font-bold"
+                className="w-full clay-input p-3 text-sm text-slate-800 font-medium"
               >
                 <option value="ADMIN">ADMINISTRATOR (Full Akses)</option>
                 <option value="EVENT_MANAGER">EVENT MANAGER (Ketua Panitia)</option>
@@ -314,7 +309,7 @@ export const UsersView: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1.5">
                 No. Telepon / WhatsApp
               </label>
               <input
@@ -328,7 +323,7 @@ export const UsersView: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1.5">
               Departemen / Instansi / Fakultas
             </label>
             <input
@@ -341,7 +336,7 @@ export const UsersView: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1.5">
               URL Foto Profil / Avatar
             </label>
             <input
@@ -353,7 +348,7 @@ export const UsersView: React.FC = () => {
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
             <ClayButton
               type="button"
               variant="secondary"

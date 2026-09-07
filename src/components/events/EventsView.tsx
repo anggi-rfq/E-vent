@@ -10,13 +10,10 @@ import {
   Calendar, 
   MapPin, 
   Users, 
-  Layers, 
-  CheckSquare, 
   Plus, 
   Edit, 
   Trash2, 
   Clock, 
-  Sparkles,
   CheckCircle
 } from 'lucide-react';
 
@@ -56,28 +53,28 @@ export const EventsView: React.FC = () => {
     <div className="space-y-6">
       {/* Sub-tabs: Master Timeline vs Daftar Seluruh Event */}
       <div className="flex items-center justify-between flex-wrap gap-4 border-b border-slate-200/80 pb-3">
-        <div className="flex items-center gap-2">
+        <div className="bg-slate-100 p-1 rounded-lg border border-slate-200/60 flex items-center gap-1">
           <button
             onClick={() => setSubView('timeline')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+            className={`px-3.5 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-2 ${
               subView === 'timeline'
-                ? 'clay-pill-blue text-indigo-700 bg-white shadow-md'
+                ? 'bg-white text-slate-900 shadow-xs'
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Clock className="w-4 h-4" />
+            <Clock className="w-3.5 h-3.5" />
             <span>Master Timeline & Milestones</span>
           </button>
 
           <button
             onClick={() => setSubView('all-events')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+            className={`px-3.5 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-2 ${
               subView === 'all-events'
-                ? 'clay-pill-blue text-indigo-700 bg-white shadow-md'
+                ? 'bg-white text-slate-900 shadow-xs'
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Calendar className="w-4 h-4" />
+            <Calendar className="w-3.5 h-3.5" />
             <span>Semua Event ({events.length})</span>
           </button>
         </div>
@@ -120,15 +117,15 @@ export const EventsView: React.FC = () => {
               <div
                 key={ev.id}
                 onClick={() => setActiveEventId(ev.id)}
-                className={`clay-card p-6 cursor-pointer transition-all flex flex-col justify-between group ${
+                className={`bg-white border rounded-xl p-5 cursor-pointer shadow-xs transition-colors flex flex-col justify-between group ${
                   isActive
-                    ? 'border-2 border-indigo-500 shadow-[8px_8px_20px_rgba(99,102,241,0.25)] bg-gradient-to-br from-white to-indigo-50/40'
-                    : 'hover:scale-[1.01]'
+                    ? 'border-indigo-500 bg-indigo-50/15'
+                    : 'border-slate-200/80 hover:border-slate-300'
                 }`}
               >
                 <div>
-                  <div className="flex items-start justify-between gap-2 mb-3">
-                    <span className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full ${
+                  <div className="flex items-start justify-between gap-2 mb-2.5">
+                    <span className={`text-[10px] font-medium uppercase px-2 py-0.5 rounded-md ${
                       ev.status === 'ONGOING'
                         ? 'clay-pill-green'
                         : ev.status === 'PREPARATION'
@@ -139,86 +136,86 @@ export const EventsView: React.FC = () => {
                     </span>
 
                     {isActive && (
-                      <span className="clay-pill-purple text-[10px] px-2.5 py-0.5 font-extrabold flex items-center gap-1">
-                        <CheckCircle className="w-3 h-3" /> Event Aktif
+                      <span className="text-[10px] px-2 py-0.5 font-medium rounded-md bg-indigo-100 text-indigo-700 flex items-center gap-1">
+                        <CheckCircle className="w-3 h-3" /> Aktif
                       </span>
                     )}
                   </div>
 
-                  <h3 className="text-xl font-extrabold text-slate-800 font-display group-hover:text-indigo-600 transition-colors line-clamp-2">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 font-display group-hover:text-indigo-600 transition-colors line-clamp-2">
                     {ev.name}
                   </h3>
 
-                  <p className="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">
                     {ev.description}
                   </p>
 
-                  {/* Metadata pills */}
-                  <div className="space-y-2 mt-4 text-xs text-slate-600">
+                  {/* Metadata list */}
+                  <div className="space-y-1.5 mt-3.5 text-xs text-slate-600">
                     <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-indigo-500 shrink-0" />
-                      <span className="font-semibold">
+                      <Calendar className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                      <span className="font-medium text-slate-800">
                         {formatIndonesianDate(ev.startDate)} - {formatIndonesianDate(ev.endDate)}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-rose-500 shrink-0" />
+                      <MapPin className="w-3.5 h-3.5 text-rose-500 shrink-0" />
                       <span className="truncate">{ev.location}</span>
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4 text-purple-500 shrink-0" />
-                      <span>Ketua: <strong>{manager?.name || 'Ketua Panitia'}</strong></span>
+                      <Users className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                      <span>Ketua: <strong className="font-medium text-slate-900">{manager?.name || 'Ketua Panitia'}</strong></span>
                     </div>
                   </div>
 
                   {/* Stats Grid */}
                   <div className="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-slate-100 text-center">
-                    <div className="clay-sunken-sm p-2">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase">Divisi</span>
-                      <p className="text-sm font-extrabold text-slate-800 font-display">{eventDivs.length}</p>
+                    <div className="p-2 rounded-lg bg-slate-50 border border-slate-100">
+                      <span className="text-[10px] text-slate-400 uppercase font-medium">Divisi</span>
+                      <p className="text-sm font-semibold text-slate-900 font-display">{eventDivs.length}</p>
                     </div>
 
-                    <div className="clay-sunken-sm p-2">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase">Panitia</span>
-                      <p className="text-sm font-extrabold text-indigo-600 font-display">{eventMems.length}</p>
+                    <div className="p-2 rounded-lg bg-slate-50 border border-slate-100">
+                      <span className="text-[10px] text-slate-400 uppercase font-medium">Panitia</span>
+                      <p className="text-sm font-semibold text-indigo-600 font-display">{eventMems.length}</p>
                     </div>
 
-                    <div className="clay-sunken-sm p-2">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase">Tugas</span>
-                      <p className="text-sm font-extrabold text-emerald-600 font-display">{eventTasks.length}</p>
+                    <div className="p-2 rounded-lg bg-slate-50 border border-slate-100">
+                      <span className="text-[10px] text-slate-400 uppercase font-medium">Tugas</span>
+                      <p className="text-sm font-semibold text-emerald-600 font-display">{eventTasks.length}</p>
                     </div>
                   </div>
 
                   {/* Progress Bar */}
-                  <div className="mt-4">
-                    <div className="flex justify-between text-xs font-bold text-slate-700 mb-1">
-                      <span>Progres Event</span>
-                      <span className="text-indigo-600">{progress}%</span>
+                  <div className="mt-3.5">
+                    <div className="flex justify-between text-xs text-slate-600 mb-1">
+                      <span className="font-medium">Progres Event</span>
+                      <span className="font-semibold text-indigo-600">{progress}%</span>
                     </div>
                     <ClayProgressBar progress={progress} size="sm" />
                   </div>
                 </div>
 
                 {/* Footer Controls */}
-                <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-bold text-indigo-600 hover:underline">
-                    {isActive ? 'Sedang Dipilih' : 'Klik untuk Beralih →'}
+                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-xs font-medium text-indigo-600">
+                    {isActive ? 'Sedang Aktif' : 'Klik untuk Beralih →'}
                   </span>
 
                   {canManageEvents && (
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={(e) => handleEdit(ev, e)}
-                        className="w-8 h-8 rounded-xl clay-btn-secondary flex items-center justify-center text-slate-500 hover:text-indigo-600 transition-colors"
+                        className="w-7 h-7 rounded-md border border-slate-200 hover:bg-slate-50 flex items-center justify-center text-slate-500 hover:text-indigo-600 transition-colors"
                         title="Edit Informasi Event"
                       >
                         <Edit className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={(e) => handleDelete(ev.id, ev.name, e)}
-                        className="w-8 h-8 rounded-xl clay-btn-secondary flex items-center justify-center text-slate-500 hover:text-rose-600 transition-colors"
+                        className="w-7 h-7 rounded-md border border-slate-200 hover:bg-slate-50 flex items-center justify-center text-slate-500 hover:text-rose-600 transition-colors"
                         title="Hapus Event"
                       >
                         <Trash2 className="w-3.5 h-3.5" />

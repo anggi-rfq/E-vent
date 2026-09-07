@@ -22,8 +22,9 @@ export type NavTab = 'dashboard' | 'timeline' | 'divisions' | 'tasks' | 'attachm
 interface NavbarProps {
   activeTab: NavTab;
   onTabChange: (tab: NavTab) => void;
-  onOpenCreateTask: () => void;
-  onOpenCreateEvent: () => void;
+  onOpenCreateTask?: () => void;
+  onOpenCreateEvent?: () => void;
+  onOpenUserSwitcher?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -31,6 +32,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onTabChange,
   onOpenCreateTask,
   onOpenCreateEvent,
+  onOpenUserSwitcher,
 }) => {
   const { 
     currentUser, 
@@ -40,8 +42,16 @@ export const Navbar: React.FC<NavbarProps> = ({
     resetToDefaultData 
   } = useApp();
 
-  const [isUserSwitcherOpen, setIsUserSwitcherOpen] = useState(false);
+  const [internalUserSwitcherOpen, setInternalUserSwitcherOpen] = useState(false);
   const [isEventMenuOpen, setIsEventMenuOpen] = useState(false);
+
+  const handleOpenUserSwitcher = () => {
+    if (onOpenUserSwitcher) {
+      onOpenUserSwitcher();
+    } else {
+      setInternalUserSwitcherOpen(true);
+    }
+  };
 
   const canCreateTask = currentUser.role !== 'MEMBER';
   const canCreateEvent = currentUser.role === 'ADMIN' || currentUser.role === 'EVENT_MANAGER';
@@ -60,46 +70,43 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-[#E6EEFA]/90 backdrop-blur-md border-b border-white/70 shadow-[0_6px_20px_rgba(209,217,230,0.45)]">
+      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Row: Brand, Event Selector, User Profile & Actions */}
-          <div className="flex items-center justify-between h-20 gap-3 sm:gap-6">
+          <div className="flex items-center justify-between h-16 gap-3 sm:gap-6">
             {/* Brand Logo */}
             <div className="flex items-center gap-3 shrink-0">
-              <div className="w-12 h-12 rounded-2xl bg-[#7CA1FF] flex items-center justify-center text-white shadow-[6px_6px_14px_#C2D0ED,-4px_-4px_10px_#FFFFFF,inset_2px_2px_4px_#99B7FF,inset_-2px_-2px_4px_#5F8AE6] border border-white/40 transform hover:rotate-3 transition-transform">
-                <Sparkles className="w-6 h-6 animate-pulse" />
+              <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-xs">
+                <Sparkles className="w-5 h-5" />
               </div>
               <div className="hidden sm:block">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-display font-extrabold text-2xl tracking-tight text-[#2D3748]">
-                    E-<span className="text-[#7CA1FF]">vent</span>
+                <div className="flex items-center gap-2">
+                  <span className="font-display font-bold text-lg tracking-tight text-slate-900">
+                    E-<span className="text-indigo-600">vent</span>
                   </span>
-                  <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#DCE8FE] text-[#1E40AF] shadow-inner">
-                    PRD v1.0
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200">
+                    v1.0
                   </span>
                 </div>
-                <p className="text-xs font-semibold text-[#4A5568] tracking-wide">
-                  Event & Committee Management
-                </p>
               </div>
             </div>
 
-            {/* Event Selector Pill Dropdown */}
+            {/* Event Selector Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setIsEventMenuOpen(!isEventMenuOpen)}
-                className="clay-card-sm px-4 py-2.5 flex items-center gap-3 hover:bg-white transition-all text-left max-w-[200px] sm:max-w-xs md:max-w-md"
+                className="bg-white border border-slate-200 hover:border-slate-300 rounded-xl px-3 py-1.5 flex items-center gap-2.5 transition-colors shadow-xs text-left max-w-[200px] sm:max-w-xs md:max-w-md"
               >
-                <div className="w-8 h-8 rounded-xl bg-[#7CA1FF] text-white flex items-center justify-center shrink-0 shadow-[2px_2px_6px_#C2D0ED,inset_1px_1px_2px_#99B7FF]">
-                  <Calendar className="w-4 h-4" />
+                <div className="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                  <Calendar className="w-3.5 h-3.5" />
                 </div>
                 <div className="truncate min-w-0">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-[#7CA1FF]">Event Aktif</p>
-                  <p className="text-xs sm:text-sm font-extrabold text-[#2D3748] truncate">
+                  <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">Event</p>
+                  <p className="text-xs sm:text-sm font-semibold text-slate-900 truncate">
                     {activeEvent?.name || 'Pilih Event'}
                   </p>
                 </div>
-                <ChevronDown className="w-4 h-4 text-slate-400 shrink-0 ml-auto" />
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0 ml-1" />
               </button>
 
               {/* Event Dropdown Menu */}
@@ -109,46 +116,49 @@ export const Navbar: React.FC<NavbarProps> = ({
                     className="fixed inset-0 z-20"
                     onClick={() => setIsEventMenuOpen(false)}
                   />
-                  <div className="absolute left-0 mt-2 w-72 sm:w-80 clay-card p-3 z-30 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
-                    <div className="p-2 border-b border-[#D1D9E6]/70 mb-2">
-                      <p className="text-xs font-bold text-[#4A5568] uppercase tracking-wider">
+                  <div className="absolute left-0 mt-1.5 w-72 sm:w-80 bg-white border border-slate-200/90 rounded-xl p-2 z-30 shadow-lg animate-in fade-in slide-in-from-top-1 duration-150">
+                    <div className="px-2 py-1.5 border-b border-slate-100 mb-1">
+                      <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
                         Daftar Event Tersedia
                       </p>
                     </div>
-                    <div className="space-y-1.5 max-h-60 overflow-y-auto pr-1">
-                      {events.map((ev) => (
-                        <button
-                          key={ev.id}
-                          onClick={() => {
-                            setActiveEventId(ev.id);
-                            setIsEventMenuOpen(false);
-                          }}
-                          className={`w-full text-left p-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
-                            ev.id === activeEvent?.id
-                              ? 'bg-[#7CA1FF] text-white shadow-md'
-                              : 'hover:bg-white/80 text-[#4A5568]'
-                          }`}
-                        >
-                          <span className="truncate pr-2">{ev.name}</span>
-                          <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
-                            ev.id === activeEvent?.id ? 'bg-white/25 text-white' : 'bg-[#E9F0FD] text-[#4A5568]'
-                          }`}>
-                            {ev.status}
-                          </span>
-                        </button>
-                      ))}
+                    <div className="space-y-1 max-h-60 overflow-y-auto pr-1">
+                      {events.map((ev) => {
+                        const isSelected = ev.id === activeEvent?.id;
+                        return (
+                          <button
+                            key={ev.id}
+                            onClick={() => {
+                              setActiveEventId(ev.id);
+                              setIsEventMenuOpen(false);
+                            }}
+                            className={`w-full text-left p-2 rounded-lg text-xs font-medium transition-colors flex items-center justify-between ${
+                              isSelected
+                                ? 'bg-indigo-50 text-indigo-700 font-semibold'
+                                : 'hover:bg-slate-50 text-slate-700'
+                            }`}
+                          >
+                            <span className="truncate pr-2">{ev.name}</span>
+                            <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
+                              isSelected ? 'bg-indigo-200/70 text-indigo-800' : 'bg-slate-100 text-slate-600'
+                            }`}>
+                              {ev.status}
+                            </span>
+                          </button>
+                        );
+                      })}
                     </div>
 
-                    {canCreateEvent && (
-                      <div className="pt-2 mt-2 border-t border-[#D1D9E6]/70">
+                    {canCreateEvent && onOpenCreateEvent && (
+                      <div className="pt-2 mt-1.5 border-t border-slate-100">
                         <button
                           onClick={() => {
                             setIsEventMenuOpen(false);
                             onOpenCreateEvent();
                           }}
-                          className="w-full py-2 px-3 rounded-xl bg-[#DCE8FE] hover:bg-[#C8DCFE] text-[#1E40AF] font-bold text-xs flex items-center justify-center gap-2 transition-colors"
+                          className="w-full py-1.5 px-3 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium text-xs flex items-center justify-center gap-1.5 transition-colors"
                         >
-                          <Plus className="w-4 h-4" />
+                          <Plus className="w-3.5 h-3.5" />
                           <span>Buat Event Baru</span>
                         </button>
                       </div>
@@ -161,12 +171,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Right Side: Quick Action, User Profile Switcher, Reset Demo */}
             <div className="flex items-center gap-2 sm:gap-3">
               {/* Quick Create Task */}
-              {canCreateTask && (
+              {canCreateTask && onOpenCreateTask && (
                 <ClayButton
                   variant="primary"
                   size="sm"
                   onClick={onOpenCreateTask}
-                  icon={<Plus className="w-4 h-4" />}
+                  icon={<Plus className="w-3.5 h-3.5" />}
                   className="hidden sm:inline-flex"
                 >
                   Buat Task
@@ -180,30 +190,28 @@ export const Navbar: React.FC<NavbarProps> = ({
                     resetToDefaultData();
                   }
                 }}
-                className="w-10 h-10 rounded-2xl clay-btn-secondary flex items-center justify-center text-[#4A5568] hover:text-[#7CA1FF] transition-colors"
+                className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-slate-800 hover:bg-slate-50 shadow-xs flex items-center justify-center transition-colors"
                 title="Reset Data Demo ke Default"
               >
-                <RotateCcw className="w-4 h-4" />
+                <RotateCcw className="w-3.5 h-3.5" />
               </button>
 
               {/* Current User Pill / Switcher trigger */}
               <button
-                onClick={() => setIsUserSwitcherOpen(true)}
-                className="clay-card-sm px-2.5 sm:px-3.5 py-1.5 flex items-center gap-2 sm:gap-3 hover:bg-white transition-all text-left"
+                onClick={handleOpenUserSwitcher}
+                className="bg-white border border-slate-200 hover:border-slate-300 rounded-xl px-2.5 sm:px-3 py-1 flex items-center gap-2 sm:gap-2.5 transition-colors shadow-xs text-left"
                 title="Klik untuk mengganti akun / role"
               >
                 <img
                   src={currentUser.avatar}
                   alt={currentUser.name}
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl object-cover border-2 border-white shadow-sm"
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg object-cover border border-slate-200"
                 />
                 <div className="hidden md:block">
-                  <div className="flex items-center gap-1.5">
-                    <p className="text-xs font-extrabold text-[#2D3748] max-w-[110px] truncate">
-                      {currentUser.name}
-                    </p>
-                  </div>
-                  <RoleBadge role={currentUser.role} />
+                  <p className="text-xs font-semibold text-slate-900 max-w-[120px] truncate leading-tight">
+                    {currentUser.name}
+                  </p>
+                  <RoleBadge role={currentUser.role} size="sm" />
                 </div>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400 hidden sm:block" />
               </button>
@@ -211,17 +219,17 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Bottom Row: Navigation Tabs */}
-          <nav className="flex items-center gap-1.5 sm:gap-2 pb-3 overflow-x-auto no-scrollbar pt-1">
+          <nav className="flex items-center gap-1 border-t border-slate-100 pt-1 pb-2 overflow-x-auto no-scrollbar">
             {navItems.map((item) => {
               const isActive = activeTab === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => onTabChange(item.id)}
-                  className={`px-3.5 sm:px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap ${
                     isActive
-                      ? 'bg-[#7CA1FF] text-white shadow-[6px_6px_14px_#C2D0ED,-4px_-4px_10px_#FFFFFF,inset_2px_2px_4px_#99B7FF,inset_-2px_-2px_4px_#5F8AE6] scale-100'
-                      : 'text-[#4A5568] hover:text-[#2D3748] hover:bg-white/70'
+                      ? 'bg-slate-900 text-white shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                   }`}
                 >
                   {item.icon}
@@ -233,11 +241,13 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </header>
 
-      {/* User Switcher Modal */}
-      <QuickUserSwitcherModal
-        isOpen={isUserSwitcherOpen}
-        onClose={() => setIsUserSwitcherOpen(false)}
-      />
+      {/* Internal User Switcher fallback if not managed externally */}
+      {!onOpenUserSwitcher && (
+        <QuickUserSwitcherModal
+          isOpen={internalUserSwitcherOpen}
+          onClose={() => setInternalUserSwitcherOpen(false)}
+        />
+      )}
     </>
   );
 };

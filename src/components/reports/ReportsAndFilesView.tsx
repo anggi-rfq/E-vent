@@ -6,15 +6,9 @@ import { formatIndonesianDate, formatFileSize, getTimeAgo } from '../../utils/da
 import { 
   FileText, 
   Download, 
-  Paperclip, 
-  Sparkles, 
   Printer, 
-  CheckCircle2, 
-  Layers, 
-  Clock, 
-  TrendingUp,
-  FileCheck,
-  Search,
+  Search, 
+  Paperclip, 
   BookOpen
 } from 'lucide-react';
 
@@ -24,39 +18,32 @@ export const ReportsAndFilesView: React.FC = () => {
     divisions, 
     tasks, 
     attachments, 
-    users, 
-    members, 
-    milestones, 
-    taskUpdates 
+    users 
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'lpj' | 'files'>('lpj');
   const [fileSearch, setFileSearch] = useState('');
-  const [fileDivFilter, setFileDivFilter] = useState('ALL');
+  const [fileDivFilter, setFileDivFilter] = useState<string>('ALL');
 
   const eventTasks = tasks.filter((t) => t.eventId === activeEvent?.id);
   const eventDivisions = divisions.filter((d) => d.eventId === activeEvent?.id);
-  const eventMembers = members.filter((m) => m.eventId === activeEvent?.id);
-  const eventMilestones = milestones.filter((m) => m.eventId === activeEvent?.id);
-
-  // Files in active event
   const eventTaskIds = new Set(eventTasks.map((t) => t.id));
   const eventAttachments = attachments.filter((a) => eventTaskIds.has(a.taskId));
 
-  const filteredFiles = eventAttachments.filter((f) => {
-    const task = tasks.find((t) => t.id === f.taskId);
-    const matchesDiv = fileDivFilter === 'ALL' || task?.divisionId === fileDivFilter;
-    const matchesSearch =
-      !fileSearch.trim() ||
-      f.fileName.toLowerCase().includes(fileSearch.toLowerCase()) ||
-      task?.title.toLowerCase().includes(fileSearch.toLowerCase());
-    return matchesDiv && matchesSearch;
-  });
-
-  const completedTasks = eventTasks.filter((t) => t.status === 'COMPLETED').length;
+  const completedTasks = eventTasks.filter((t) => t.status === 'COMPLETED');
   const overallProgress = eventTasks.length > 0
-    ? Math.round((completedTasks / eventTasks.length) * 100)
+    ? Math.round(eventTasks.reduce((acc, t) => acc + (t.progress || 0), 0) / eventTasks.length)
     : 0;
+
+  // Filtered files
+  const filteredFiles = eventAttachments.filter((file) => {
+    const task = tasks.find((t) => t.id === file.taskId);
+    const matchesSearch = !fileSearch.trim() || 
+      file.fileName.toLowerCase().includes(fileSearch.toLowerCase()) ||
+      task?.title.toLowerCase().includes(fileSearch.toLowerCase());
+    const matchesDiv = fileDivFilter === 'ALL' || task?.divisionId === fileDivFilter;
+    return matchesSearch && matchesDiv;
+  });
 
   const handlePrintLPJ = () => {
     window.print();
@@ -65,16 +52,16 @@ export const ReportsAndFilesView: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="clay-card p-5 sm:p-6 bg-gradient-to-r from-[#F0F4FF] via-[#E9F0FD] to-[#E6EEFA] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-white border border-slate-200/80 rounded-xl p-5 sm:p-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-[#A2E0C1] text-[#065F46] flex items-center justify-center shadow-md">
-            <FileText className="w-6 h-6" />
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <FileText className="w-5 h-5" />
           </div>
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#065F46] block mb-0.5">
+            <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400 block mb-0.5">
               Laporan & Dokumen
             </span>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#2D3748] font-display">
+            <h2 className="text-lg sm:text-xl font-semibold text-slate-900 font-display">
               LPJ Event & Berkas Terlampir
             </h2>
           </div>
@@ -85,7 +72,7 @@ export const ReportsAndFilesView: React.FC = () => {
             variant="secondary"
             size="md"
             onClick={handlePrintLPJ}
-            icon={<Printer className="w-4 h-4 text-emerald-600" />}
+            icon={<Printer className="w-4 h-4 text-slate-600" />}
           >
             Cetak / Ekspor PDF
           </ClayButton>
@@ -93,12 +80,12 @@ export const ReportsAndFilesView: React.FC = () => {
       </div>
 
       {/* Switcher Tab */}
-      <div className="border-b border-slate-200/80 flex items-center gap-3">
+      <div className="border-b border-slate-200/80 flex items-center gap-4">
         <button
           onClick={() => setActiveTab('lpj')}
-          className={`pb-3 text-xs sm:text-sm font-bold transition-all border-b-2 flex items-center gap-2 ${
+          className={`pb-3 text-xs sm:text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${
             activeTab === 'lpj'
-              ? 'border-emerald-600 text-emerald-700'
+              ? 'border-indigo-600 text-indigo-600 font-semibold'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -108,9 +95,9 @@ export const ReportsAndFilesView: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('files')}
-          className={`pb-3 text-xs sm:text-sm font-bold transition-all border-b-2 flex items-center gap-2 ${
+          className={`pb-3 text-xs sm:text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${
             activeTab === 'files'
-              ? 'border-emerald-600 text-emerald-700'
+              ? 'border-indigo-600 text-indigo-600 font-semibold'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -123,114 +110,96 @@ export const ReportsAndFilesView: React.FC = () => {
         /* LPJ View */
         <div className="space-y-6">
           {/* Executive Summary Card */}
-          <div className="clay-card p-6 sm:p-8 space-y-6 bg-white">
-            <div className="text-center border-b border-slate-200 pb-6">
-              <span className="clay-pill-purple text-xs font-extrabold px-3 py-1 uppercase tracking-wider mb-2 inline-block">
+          <div className="bg-white border border-slate-200/80 rounded-xl p-6 sm:p-8 space-y-6 shadow-xs">
+            <div className="text-center border-b border-slate-100 pb-6">
+              <span className="text-xs font-medium text-purple-700 bg-purple-50 px-2.5 py-1 rounded-md uppercase tracking-wider mb-2 inline-block">
                 Laporan Pertanggungjawaban (LPJ) Resmi
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display mt-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 font-display mt-1">
                 {activeEvent?.name}
               </h2>
-              <p className="text-xs sm:text-sm text-slate-500 mt-1 font-medium">
+              <p className="text-xs text-slate-500 mt-1">
                 Periode: {formatIndonesianDate(activeEvent?.startDate || '')} s/d {formatIndonesianDate(activeEvent?.endDate || '')} • Lokasi: {activeEvent?.location}
               </p>
             </div>
 
             {/* Event Performance KPIs */}
             <div>
-              <h3 className="text-sm font-extrabold text-slate-800 font-display uppercase tracking-wider mb-3">
+              <h3 className="text-xs font-semibold text-slate-700 font-display uppercase tracking-wider mb-3">
                 I. Ringkasan Eksekutif & Indikator Kinerja (KPI)
               </h3>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <div className="clay-sunken p-4 rounded-2xl text-center">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Tingkat Penyelesaian</span>
-                  <p className="text-2xl font-extrabold text-emerald-600 font-display mt-1">
+                <div className="p-3.5 rounded-lg border border-slate-100 bg-slate-50 text-center">
+                  <span className="text-[10px] font-medium text-slate-400 uppercase">Tingkat Penyelesaian</span>
+                  <p className="text-xl font-semibold text-emerald-600 font-display mt-1">
                     {overallProgress}%
                   </p>
-                  <p className="text-[11px] text-slate-500 mt-0.5">{completedTasks}/{eventTasks.length} Tugas Beres</p>
                 </div>
 
-                <div className="clay-sunken p-4 rounded-2xl text-center">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Total Personil Panitia</span>
-                  <p className="text-2xl font-extrabold text-indigo-600 font-display mt-1">
-                    {eventMembers.length} Orang
+                <div className="p-3.5 rounded-lg border border-slate-100 bg-slate-50 text-center">
+                  <span className="text-[10px] font-medium text-slate-400 uppercase">Total Tugas Dituntaskan</span>
+                  <p className="text-xl font-semibold text-slate-900 font-display mt-1">
+                    {completedTasks.length} / {eventTasks.length}
                   </p>
-                  <p className="text-[11px] text-slate-500 mt-0.5">{eventDivisions.length} Divisi Kerja</p>
                 </div>
 
-                <div className="clay-sunken p-4 rounded-2xl text-center">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Milestone Tercapai</span>
-                  <p className="text-2xl font-extrabold text-purple-600 font-display mt-1">
-                    {eventMilestones.filter((m) => m.isCompleted).length}/{eventMilestones.length}
+                <div className="p-3.5 rounded-lg border border-slate-100 bg-slate-50 text-center">
+                  <span className="text-[10px] font-medium text-slate-400 uppercase">Divisi Terlibat</span>
+                  <p className="text-xl font-semibold text-slate-900 font-display mt-1">
+                    {eventDivisions.length} Divisi
                   </p>
-                  <p className="text-[11px] text-slate-500 mt-0.5">Tahapan Road Map</p>
                 </div>
 
-                <div className="clay-sunken p-4 rounded-2xl text-center">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Target Partisipan</span>
-                  <p className="text-2xl font-extrabold text-blue-600 font-display mt-1">
-                    {activeEvent?.targetAttendees || 1000}
+                <div className="p-3.5 rounded-lg border border-slate-100 bg-slate-50 text-center">
+                  <span className="text-[10px] font-medium text-slate-400 uppercase">Dokumen Terarsip</span>
+                  <p className="text-xl font-semibold text-indigo-600 font-display mt-1">
+                    {eventAttachments.length} Berkas
                   </p>
-                  <p className="text-[11px] text-slate-500 mt-0.5">Peserta / Audiens</p>
                 </div>
               </div>
             </div>
 
-            {/* Division Breakdown Section */}
+            {/* Division Breakdown for LPJ */}
             <div>
-              <h3 className="text-sm font-extrabold text-slate-800 font-display uppercase tracking-wider mb-3">
-                II. Laporan Perkembangan Masing-Masing Divisi
+              <h3 className="text-xs font-semibold text-slate-700 font-display uppercase tracking-wider mb-3">
+                II. Laporan Pertanggungjawaban per Divisi
               </h3>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {eventDivisions.map((div) => {
                   const divTasks = eventTasks.filter((t) => t.divisionId === div.id);
+                  const divDone = divTasks.filter((t) => t.status === 'COMPLETED').length;
                   const divCoordinator = users.find((u) => u.id === div.coordinatorId);
-                  const divMembers = eventMembers.filter((m) => m.divisionId === div.id);
-                  const divCompleted = divTasks.filter((t) => t.status === 'COMPLETED').length;
                   const divProgress = divTasks.length > 0
-                    ? Math.round(divTasks.reduce((acc, t) => acc + (t.progress || 0), 0) / divTasks.length)
+                    ? Math.round((divDone / divTasks.length) * 100)
                     : 0;
 
                   return (
-                    <div key={div.id} className="clay-card-flat p-4 bg-slate-50/70 space-y-3">
-                      <div className="flex items-center justify-between flex-wrap gap-2">
-                        <div className="flex items-center gap-2">
-                          <span className="w-3 h-3 rounded-full" style={{ backgroundColor: div.color }} />
-                          <h4 className="font-extrabold text-slate-800 text-sm">{div.name}</h4>
-                          <span className="text-xs text-slate-500">
-                            (Koordinator: <strong>{divCoordinator?.name}</strong> • {divMembers.length} Anggota)
-                          </span>
+                    <div key={div.id} className="p-4 rounded-lg border border-slate-200/70 bg-white space-y-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-2">
+                        <div>
+                          <h4 className="font-semibold text-slate-800 text-sm">{div.name}</h4>
+                          <p className="text-xs text-slate-500 mt-0.5">
+                            Koordinator: <strong className="font-medium text-slate-700">{divCoordinator?.name || '-'}</strong>
+                          </p>
                         </div>
-
-                        <span className="text-xs font-extrabold text-indigo-700 bg-indigo-100 px-3 py-1 rounded-full">
-                          Progres: {divProgress}% ({divCompleted}/{divTasks.length} Tugas)
-                        </span>
+                        <div className="text-right">
+                          <span className="text-xs font-semibold text-indigo-600">{divProgress}% Selesai</span>
+                          <p className="text-[11px] text-slate-400">{divDone} dari {divTasks.length} tugas tuntas</p>
+                        </div>
                       </div>
 
                       <ClayProgressBar progress={divProgress} size="sm" />
 
-                      {/* Tasks breakdown list */}
-                      <div className="pt-2 border-t border-slate-200/60">
-                        <ul className="text-xs space-y-1.5 text-slate-600">
-                          {divTasks.map((t) => {
-                            const assignee = users.find((u) => u.id === t.assignedTo);
-                            return (
-                              <li key={t.id} className="flex items-center justify-between gap-2">
-                                <div className="flex items-center gap-2 min-w-0">
-                                  <span className={t.status === 'COMPLETED' ? 'text-emerald-600 font-bold' : 'text-slate-400'}>
-                                    {t.status === 'COMPLETED' ? '✓' : '○'}
-                                  </span>
-                                  <span className={`truncate ${t.status === 'COMPLETED' ? 'line-through text-slate-400' : 'text-slate-800 font-medium'}`}>
-                                    {t.title}
-                                  </span>
-                                  <span className="text-[10px] text-slate-400 shrink-0">(PIC: {assignee?.name})</span>
-                                </div>
-                                <span className="text-[11px] font-bold text-indigo-600 shrink-0">{t.progress}%</span>
-                              </li>
-                            );
-                          })}
+                      <div className="text-xs text-slate-600">
+                        <p className="font-medium text-slate-700 mb-1">Capaian Utama:</p>
+                        <ul className="list-disc pl-4 space-y-0.5 text-slate-500">
+                          {divTasks.slice(0, 3).map((t) => (
+                            <li key={t.id}>
+                              {t.title} — <span className="font-medium text-slate-700">{t.status}</span> ({t.progress}%)
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     </div>
@@ -241,10 +210,10 @@ export const ReportsAndFilesView: React.FC = () => {
 
             {/* Evaluation & Conclusion Section */}
             <div>
-              <h3 className="text-sm font-extrabold text-slate-800 font-display uppercase tracking-wider mb-2">
+              <h3 className="text-xs font-semibold text-slate-700 font-display uppercase tracking-wider mb-2">
                 III. Evaluasi & Catatan Rekomendasi
               </h3>
-              <div className="clay-sunken p-4 rounded-2xl text-xs text-slate-700 leading-relaxed space-y-2">
+              <div className="p-4 rounded-lg border border-slate-200/70 bg-slate-50 text-xs text-slate-600 leading-relaxed space-y-2">
                 <p>
                   • <strong>Koordinasi Antar Divisi:</strong> Alur komunikasi terpusat via E-vent membantu meminimalisir miskomunikasi teknis pada gladi bersih.
                 </p>
@@ -260,7 +229,7 @@ export const ReportsAndFilesView: React.FC = () => {
         </div>
       ) : (
         /* Repository Files View */
-        <div className="clay-card p-6 space-y-4">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-5 sm:p-6 shadow-xs space-y-4">
           {/* File search & filter bar */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="relative w-full sm:w-80">
@@ -277,7 +246,7 @@ export const ReportsAndFilesView: React.FC = () => {
             <select
               value={fileDivFilter}
               onChange={(e) => setFileDivFilter(e.target.value)}
-              className="clay-input px-3 py-2 text-xs text-slate-800 font-bold w-full sm:w-auto"
+              className="clay-input px-3 py-2 text-xs text-slate-800 font-medium w-full sm:w-auto"
             >
               <option value="ALL">Semua Divisi</option>
               {eventDivisions.map((d) => (
@@ -292,7 +261,7 @@ export const ReportsAndFilesView: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs sm:text-sm">
               <thead>
-                <tr className="border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+                <tr className="border-b border-slate-200 text-slate-500 font-medium uppercase tracking-wider text-[11px]">
                   <th className="pb-3 pl-2">Nama Berkas</th>
                   <th className="pb-3">Terkait Tugas</th>
                   <th className="pb-3">Divisi</th>
@@ -315,7 +284,7 @@ export const ReportsAndFilesView: React.FC = () => {
                             <FileText className="w-4 h-4" />
                           </div>
                           <div>
-                            <p className="font-extrabold text-slate-800 text-xs sm:text-sm">
+                            <p className="font-medium text-slate-900 text-xs sm:text-sm">
                               {file.fileName}
                             </p>
                             <span className="text-[10px] text-slate-400">
@@ -325,21 +294,21 @@ export const ReportsAndFilesView: React.FC = () => {
                         </div>
                       </td>
 
-                      <td className="py-3.5 font-semibold text-slate-700">
+                      <td className="py-3.5 font-medium text-slate-700 text-xs">
                         {task?.title || '-'}
                       </td>
 
                       <td className="py-3.5">
-                        <span className="clay-pill-blue text-xs px-2.5 py-0.5 font-bold">
+                        <span className="text-xs px-2.5 py-0.5 font-medium rounded-md bg-indigo-50 text-indigo-700">
                           {div?.name || 'Umum'}
                         </span>
                       </td>
 
-                      <td className="py-3.5 text-xs text-slate-600 font-medium">
+                      <td className="py-3.5 text-xs text-slate-600 font-normal">
                         {uploader?.name || 'Panitia'}
                       </td>
 
-                      <td className="py-3.5 text-xs text-slate-500 font-bold">
+                      <td className="py-3.5 text-xs text-slate-500 font-medium">
                         {formatFileSize(file.fileSize)}
                       </td>
 
@@ -348,7 +317,7 @@ export const ReportsAndFilesView: React.FC = () => {
                           href={file.fileUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="clay-pill-green text-xs px-3 py-1.5 font-bold inline-flex items-center gap-1 hover:bg-emerald-600 hover:text-white transition-colors"
+                          className="text-xs px-2.5 py-1 font-medium rounded-md bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors inline-flex items-center gap-1"
                         >
                           <Download className="w-3.5 h-3.5" />
                           <span>Unduh</span>

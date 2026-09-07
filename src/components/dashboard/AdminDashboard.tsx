@@ -30,16 +30,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   return (
     <div className="space-y-6">
       {/* Admin Greeting Banner */}
-      <div className="clay-card p-6 bg-gradient-to-r from-[#F0F4FF] via-[#E9F0FD] to-[#E6EEFA] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-[#DDD6FE] text-[#6D28D9] flex items-center justify-center shadow-md">
-            <Shield className="w-6 h-6" />
+      <div className="bg-white border border-slate-200/80 rounded-xl p-5 sm:p-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+            <Shield className="w-5 h-5" />
           </div>
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#6D28D9] block mb-1">
+            <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400 block mb-0.5">
               Admin Console
             </span>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#2D3748] font-display">
+            <h2 className="text-lg sm:text-xl font-semibold text-slate-900 font-display">
               Panel Kendali Sistem & Master Data
             </h2>
           </div>
@@ -47,7 +47,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
         <button
           onClick={onNavigateToUsers}
-          className="clay-btn-primary px-4 py-2.5 text-xs font-bold flex items-center gap-2 shrink-0"
+          className="clay-btn-primary px-3.5 py-2 text-xs font-medium flex items-center gap-1.5 shrink-0"
         >
           <Users className="w-4 h-4" />
           <span>Kelola Pengguna ({users.length})</span>
@@ -55,21 +55,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       </div>
 
       {/* Global Metrics Cards Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Users */}
         <div
           onClick={onNavigateToUsers}
-          className="clay-card p-5 cursor-pointer clay-card-hover group flex flex-col justify-between"
+          className="bg-white border border-slate-200/80 rounded-xl p-4 sm:p-5 shadow-xs cursor-pointer hover:border-slate-300 transition-colors group flex flex-col justify-between"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#4A5568] uppercase tracking-wider">Total Akun</span>
-            <div className="w-9 h-9 rounded-2xl bg-[#DDD6FE] text-[#6D28D9] flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform">
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Akun</span>
+            <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
               <Users className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#2D3748] font-display">{users.length}</h3>
-            <p className="text-xs font-semibold text-[#6D28D9] mt-1 flex items-center gap-1">
+            <h3 className="text-2xl sm:text-3xl font-semibold text-slate-900 font-display">{users.length}</h3>
+            <p className="text-xs font-medium text-purple-600 mt-1 flex items-center gap-1">
               <span>{adminCount} Admin, {managerCount} Ketua</span>
               <ArrowRight className="w-3 h-3" />
             </p>
@@ -79,49 +79,49 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         {/* Total Events */}
         <div
           onClick={onNavigateToEvents}
-          className="clay-card p-5 cursor-pointer clay-card-hover group flex flex-col justify-between"
+          className="bg-white border border-slate-200/80 rounded-xl p-4 sm:p-5 shadow-xs cursor-pointer hover:border-slate-300 transition-colors group flex flex-col justify-between"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#4A5568] uppercase tracking-wider">Total Event</span>
-            <div className="w-9 h-9 rounded-2xl bg-[#DCE8FE] text-[#1E40AF] flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform">
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Event</span>
+            <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
               <Calendar className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#2D3748] font-display">{events.length}</h3>
-            <p className="text-xs font-semibold text-[#1E40AF] mt-1">
+            <h3 className="text-2xl sm:text-3xl font-semibold text-slate-900 font-display">{events.length}</h3>
+            <p className="text-xs text-slate-500 mt-1">
               Event terdaftar
             </p>
           </div>
         </div>
 
         {/* Global Tasks */}
-        <div className="clay-card p-5 flex flex-col justify-between">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-4 sm:p-5 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#4A5568] uppercase tracking-wider">Semua Tugas</span>
-            <div className="w-9 h-9 rounded-2xl bg-[#E0F7FA] text-[#00838F] flex items-center justify-center shadow-inner">
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Semua Tugas</span>
+            <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
               <CheckSquare className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#2D3748] font-display">{tasks.length}</h3>
-            <p className="text-xs font-semibold text-[#4A5568] mt-1">
+            <h3 className="text-2xl sm:text-3xl font-semibold text-slate-900 font-display">{tasks.length}</h3>
+            <p className="text-xs text-slate-500 mt-1">
               {tasks.filter((t) => t.status === 'COMPLETED').length} tugas tuntas
             </p>
           </div>
         </div>
 
         {/* Attachments Stored */}
-        <div className="clay-card p-5 flex flex-col justify-between">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-4 sm:p-5 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#4A5568] uppercase tracking-wider">Berkas Terunggah</span>
-            <div className="w-9 h-9 rounded-2xl bg-[#D5F5E3] text-[#065F46] flex items-center justify-center shadow-inner">
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Berkas Terunggah</span>
+            <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
               <FileText className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#065F46] font-display">{attachments.length}</h3>
-            <p className="text-xs font-semibold text-[#065F46] mt-1">
+            <h3 className="text-2xl sm:text-3xl font-semibold text-slate-900 font-display">{attachments.length}</h3>
+            <p className="text-xs text-slate-500 mt-1">
               Dokumen & lampiran
             </p>
           </div>
@@ -131,64 +131,64 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {/* Role Distribution & System Logs */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* User Role Distribution Card */}
-        <div className="clay-card p-6 flex flex-col justify-between">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-5 sm:p-6 shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 rounded-xl bg-[#DDD6FE] text-[#6D28D9] flex items-center justify-center shadow-inner">
-                <UserCheck className="w-4 h-4" />
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-7 h-7 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
+                <UserCheck className="w-3.5 h-3.5" />
               </div>
-              <h3 className="font-extrabold text-[#2D3748] text-base font-display">Distribusi Hak Akses</h3>
+              <h3 className="font-semibold text-slate-900 text-sm font-display">Distribusi Hak Akses</h3>
             </div>
 
-            <div className="space-y-2.5">
-              <div className="clay-card-flat p-3 flex items-center justify-between">
+            <div className="space-y-2">
+              <div className="p-2.5 rounded-lg border border-slate-100 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#6D28D9]" />
-                  <span className="text-xs font-bold text-[#2D3748]">Administrator</span>
+                  <span className="w-2 h-2 rounded-full bg-purple-600" />
+                  <span className="text-xs font-medium text-slate-800">Administrator</span>
                 </div>
-                <span className="text-xs font-extrabold text-[#6D28D9] bg-[#DDD6FE] px-2 py-0.5 rounded-full">
+                <span className="text-xs font-medium text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md">
                   {adminCount} Akun
                 </span>
               </div>
 
-              <div className="clay-card-flat p-3 flex items-center justify-between">
+              <div className="p-2.5 rounded-lg border border-slate-100 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-                  <span className="text-xs font-bold text-[#2D3748]">Event Manager</span>
+                  <span className="w-2 h-2 rounded-full bg-rose-500" />
+                  <span className="text-xs font-medium text-slate-800">Event Manager</span>
                 </div>
-                <span className="text-xs font-extrabold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full">
+                <span className="text-xs font-medium text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md">
                   {managerCount} Akun
                 </span>
               </div>
 
-              <div className="clay-card-flat p-3 flex items-center justify-between">
+              <div className="p-2.5 rounded-lg border border-slate-100 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#7CA1FF]" />
-                  <span className="text-xs font-bold text-[#2D3748]">Koordinator Divisi</span>
+                  <span className="w-2 h-2 rounded-full bg-indigo-500" />
+                  <span className="text-xs font-medium text-slate-800">Koordinator Divisi</span>
                 </div>
-                <span className="text-xs font-extrabold text-[#1E40AF] bg-[#DCE8FE] px-2 py-0.5 rounded-full">
+                <span className="text-xs font-medium text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md">
                   {coordCount} Akun
                 </span>
               </div>
 
-              <div className="clay-card-flat p-3 flex items-center justify-between">
+              <div className="p-2.5 rounded-lg border border-slate-100 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#065F46]" />
-                  <span className="text-xs font-bold text-[#2D3748]">Anggota Panitia</span>
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span className="text-xs font-medium text-slate-800">Anggota Panitia</span>
                 </div>
-                <span className="text-xs font-extrabold text-[#065F46] bg-[#D5F5E3] px-2 py-0.5 rounded-full">
+                <span className="text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
                   {memberCount} Akun
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="mt-5 pt-3 border-t border-[#D1D9E6]/60">
+          <div className="mt-5 pt-3 border-t border-slate-100">
             <button
               onClick={onNavigateToUsers}
-              className="w-full py-2 rounded-xl clay-btn-secondary text-xs font-bold flex items-center justify-center gap-2"
+              className="w-full py-2 rounded-lg clay-btn-secondary text-xs font-medium flex items-center justify-center gap-1.5"
             >
-              <Users className="w-4 h-4 text-[#6D28D9]" />
+              <Users className="w-3.5 h-3.5 text-purple-600" />
               <span>Kelola Pengguna</span>
             </button>
           </div>

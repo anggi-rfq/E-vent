@@ -51,21 +51,21 @@ export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
   return (
     <div className="space-y-6">
       {/* Coordinator Greeting Banner */}
-      <div className="clay-card p-6 bg-gradient-to-r from-[#F0F4FF] via-[#E9F0FD] to-[#E6EEFA] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-[#7CA1FF] text-white flex items-center justify-center shadow-md">
-            <Sparkles className="w-6 h-6" />
+      <div className="bg-white border border-slate-200/80 rounded-xl p-5 sm:p-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+            <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#7CA1FF]">
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
                 Koordinator Divisi
               </span>
-              <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-[#DCE8FE] text-[#1E40AF]">
+              <span className="text-xs px-2 py-0.5 rounded-md font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">
                 {userDivision?.name}
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#2D3748] font-display">
+            <h2 className="text-lg sm:text-xl font-semibold text-slate-900 font-display">
               Halo, {currentUser.name}
             </h2>
           </div>
@@ -73,7 +73,7 @@ export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
 
         <button
           onClick={onOpenCreateTask}
-          className="clay-btn-primary px-4 py-2.5 text-xs font-bold flex items-center gap-2 shrink-0"
+          className="clay-btn-primary px-3.5 py-2 text-xs font-medium flex items-center gap-1.5 shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>Buat Task Divisi</span>
@@ -81,72 +81,72 @@ export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
       </div>
 
       {/* Metric Cards Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Division Members */}
-        <div className="clay-card p-5 flex flex-col justify-between">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-4 sm:p-5 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#4A5568] uppercase tracking-wider">Anggota Divisi</span>
-            <div className="w-9 h-9 rounded-2xl bg-[#DCE8FE] text-[#1E40AF] flex items-center justify-center shadow-inner">
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Anggota Divisi</span>
+            <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
               <Users className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#2D3748] font-display">{divisionMembers.length}</h3>
-            <p className="text-xs font-semibold text-[#4A5568] mt-1">
+            <h3 className="text-2xl sm:text-3xl font-semibold text-slate-900 font-display">{divisionMembers.length}</h3>
+            <p className="text-xs text-slate-500 mt-1">
               Personil di {userDivision?.name}
             </p>
           </div>
         </div>
 
         {/* Total Tasks in Division */}
-        <div className="clay-card p-5 flex flex-col justify-between">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-4 sm:p-5 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#4A5568] uppercase tracking-wider">Total Tugas</span>
-            <div className="w-9 h-9 rounded-2xl bg-[#E0F7FA] text-[#00838F] flex items-center justify-center shadow-inner">
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Tugas</span>
+            <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
               <CheckSquare className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#2D3748] font-display">{divisionTasks.length}</h3>
-            <p className="text-xs font-semibold text-[#1E40AF] mt-1">
+            <h3 className="text-2xl sm:text-3xl font-semibold text-slate-900 font-display">{divisionTasks.length}</h3>
+            <p className="text-xs text-slate-500 mt-1">
               {completedTasks.length} selesai • {inProgressTasks.length} proses
             </p>
           </div>
         </div>
 
         {/* In-Review Tasks */}
-        <div className="clay-card p-5 flex flex-col justify-between">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-4 sm:p-5 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#6D28D9] uppercase tracking-wider">Perlu Review</span>
-            <div className="w-9 h-9 rounded-2xl bg-[#DDD6FE] text-[#6D28D9] flex items-center justify-center shadow-inner">
+            <span className="text-xs font-medium text-purple-600 uppercase tracking-wider">Perlu Review</span>
+            <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
               <Eye className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#6D28D9] font-display">{inReviewTasks.length}</h3>
-            <p className="text-xs font-semibold text-[#6D28D9] mt-1">
+            <h3 className="text-2xl sm:text-3xl font-semibold text-purple-600 font-display">{inReviewTasks.length}</h3>
+            <p className="text-xs text-slate-500 mt-1">
               {inReviewTasks.length > 0 ? 'Menunggu persetujuan' : 'Tidak ada antrean'}
             </p>
           </div>
         </div>
 
         {/* Overdue */}
-        <div className={`clay-card p-5 flex flex-col justify-between ${
-          overdueTasks.length > 0 ? 'bg-[#FFE2E7]/40 border border-rose-200' : ''
+        <div className={`bg-white border rounded-xl p-4 sm:p-5 shadow-xs flex flex-col justify-between ${
+          overdueTasks.length > 0 ? 'border-rose-200 bg-rose-50/20' : 'border-slate-200/80'
         }`}>
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#4A5568] uppercase tracking-wider">Tugas Overdue</span>
-            <div className={`w-9 h-9 rounded-2xl flex items-center justify-center shadow-inner ${
-              overdueTasks.length > 0 ? 'bg-[#FFB6C1] text-[#881337]' : 'bg-[#E9F0FD] text-slate-400'
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Tugas Overdue</span>
+            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+              overdueTasks.length > 0 ? 'bg-rose-100 text-rose-600' : 'bg-slate-100 text-slate-400'
             }`}>
               <AlertCircle className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className={`text-2xl sm:text-3xl font-extrabold font-display ${overdueTasks.length > 0 ? 'text-rose-600' : 'text-[#2D3748]'}`}>
+            <h3 className={`text-2xl sm:text-3xl font-semibold font-display ${overdueTasks.length > 0 ? 'text-rose-600' : 'text-slate-900'}`}>
               {overdueTasks.length}
             </h3>
-            <p className="text-xs font-semibold text-rose-500 mt-1">
+            <p className={`text-xs mt-1 font-medium ${overdueTasks.length > 0 ? 'text-rose-600' : 'text-slate-500'}`}>
               {overdueTasks.length > 0 ? 'Lewat batas waktu' : 'Tepat waktu'}
             </p>
           </div>
@@ -154,12 +154,12 @@ export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
       </div>
 
       {/* Progress Bar of Division */}
-      <div className="clay-card p-5">
-        <div className="flex items-center justify-between mb-2.5">
-          <h3 className="font-extrabold text-[#2D3748] text-sm sm:text-base font-display">
+      <div className="bg-white border border-slate-200/80 rounded-xl p-5 shadow-xs">
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="font-semibold text-slate-900 text-sm font-display">
             Capaian Progres Divisi
           </h3>
-          <span className="text-xl font-extrabold text-[#1E40AF] font-display">{divisionProgress}%</span>
+          <span className="text-lg font-semibold text-indigo-600 font-display">{divisionProgress}%</span>
         </div>
         <ClayProgressBar progress={divisionProgress} size="md" />
       </div>
@@ -167,21 +167,21 @@ export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
       {/* Review Queue and Division Task List */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Tasks In Review Queue */}
-        <div className="clay-card p-6 flex flex-col justify-between">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-5 sm:p-6 shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-[#DDD6FE] text-[#6D28D9] flex items-center justify-center shadow-inner">
-                  <Eye className="w-4 h-4" />
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
+                  <Eye className="w-3.5 h-3.5" />
                 </div>
-                <h3 className="font-extrabold text-[#2D3748] text-base font-display">Antrean Review</h3>
+                <h3 className="font-semibold text-slate-900 text-sm font-display">Antrean Review</h3>
               </div>
-              <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-[#DDD6FE] text-[#6D28D9]">
+              <span className="text-[11px] px-2 py-0.5 rounded-md font-medium bg-purple-50 text-purple-700 border border-purple-100">
                 {inReviewTasks.length} Tugas
               </span>
             </div>
 
-            <div className="space-y-2.5">
+            <div className="space-y-2">
               {inReviewTasks.map((task) => {
                 const assignedUser = users.find((u) => u.id === task.assignedTo);
 
@@ -189,28 +189,28 @@ export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
                   <div
                     key={task.id}
                     onClick={() => onSelectTask(task)}
-                    className="clay-card-flat p-3.5 hover:bg-white transition-all cursor-pointer group border-l-4 border-l-[#C4B5FD]"
+                    className="p-3 rounded-lg border border-slate-200/80 hover:border-purple-300 hover:bg-slate-50/50 transition-colors cursor-pointer group border-l-2 border-l-purple-500"
                   >
                     <div className="flex items-center justify-between gap-2 mb-1.5">
                       <PriorityBadge priority={task.priority} />
-                      <span className="text-xs font-bold text-[#6D28D9]">Progres: {task.progress}%</span>
+                      <span className="text-xs font-medium text-purple-600">Progres: {task.progress}%</span>
                     </div>
 
-                    <h4 className="font-bold text-[#2D3748] text-xs sm:text-sm group-hover:text-[#6D28D9] transition-colors">
+                    <h4 className="font-medium text-slate-800 text-xs sm:text-sm group-hover:text-purple-600 transition-colors">
                       {task.title}
                     </h4>
 
-                    <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-slate-100 text-xs">
+                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100 text-xs">
                       <div className="flex items-center gap-2">
                         <img
                           src={assignedUser?.avatar}
                           alt={assignedUser?.name}
-                          className="w-5 h-5 rounded-md object-cover"
+                          className="w-4 h-4 rounded-full object-cover"
                         />
-                        <span className="text-[#4A5568] font-semibold">{assignedUser?.name}</span>
+                        <span className="text-slate-600 font-normal">{assignedUser?.name}</span>
                       </div>
 
-                      <span className="text-[#6D28D9] font-bold text-[11px] hover:underline flex items-center gap-1">
+                      <span className="text-purple-600 font-medium text-[11px] hover:underline flex items-center gap-1">
                         Review <ArrowRight className="w-3 h-3" />
                       </span>
                     </div>
@@ -228,16 +228,16 @@ export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
         </div>
 
         {/* Member Directory in Division */}
-        <div className="clay-card p-6 flex flex-col justify-between">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-5 sm:p-6 shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 rounded-xl bg-[#DCE8FE] text-[#1E40AF] flex items-center justify-center shadow-inner">
-                <Users className="w-4 h-4" />
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <Users className="w-3.5 h-3.5" />
               </div>
-              <h3 className="font-extrabold text-[#2D3748] text-base font-display">Anggota Divisi</h3>
+              <h3 className="font-semibold text-slate-900 text-sm font-display">Anggota Divisi</h3>
             </div>
 
-            <div className="space-y-2.5">
+            <div className="space-y-2">
               {divisionMembers.map((member) => {
                 const user = users.find((u) => u.id === member.userId);
                 const userTasks = divisionTasks.filter((t) => t.assignedTo === user?.id);
@@ -246,22 +246,22 @@ export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
                 return (
                   <div
                     key={member.id}
-                    className="clay-card-flat p-3 flex items-center justify-between hover:bg-white transition-all"
+                    className="p-2.5 rounded-lg border border-slate-100 hover:border-slate-200/80 hover:bg-slate-50/50 transition-colors flex items-center justify-between"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2.5">
                       <img
                         src={user?.avatar}
                         alt={user?.name}
-                        className="w-9 h-9 rounded-xl object-cover border border-white shadow-sm"
+                        className="w-8 h-8 rounded-lg object-cover border border-slate-200"
                       />
                       <div>
-                        <h4 className="font-bold text-[#2D3748] text-xs sm:text-sm">{user?.name}</h4>
-                        <p className="text-[11px] font-semibold text-[#1E40AF]">{member.position}</p>
+                        <h4 className="font-medium text-slate-800 text-xs sm:text-sm">{user?.name}</h4>
+                        <p className="text-[11px] text-slate-500">{member.position}</p>
                       </div>
                     </div>
 
                     <div className="text-right text-xs">
-                      <p className="font-bold text-[#2D3748]">
+                      <p className="font-medium text-slate-700">
                         {userDone}/{userTasks.length} Selesai
                       </p>
                     </div>
@@ -277,10 +277,10 @@ export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-[#D1D9E6]/60">
+          <div className="mt-4 pt-3 border-t border-slate-100">
             <button
               onClick={onNavigateToTasks}
-              className="w-full py-2 text-xs font-bold text-[#1E40AF] hover:text-[#7CA1FF] flex items-center justify-center gap-1 transition-colors"
+              className="w-full py-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-800 flex items-center justify-center gap-1 transition-colors"
             >
               <span>Lihat Task Board</span>
               <ArrowRight className="w-3.5 h-3.5" />

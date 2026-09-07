@@ -19,7 +19,7 @@ interface ColumnConfig {
   title: string;
   badgeClass: string;
   icon: React.ReactNode;
-  headerColor: string;
+  borderClass: string;
 }
 
 const COLUMNS: ColumnConfig[] = [
@@ -27,29 +27,29 @@ const COLUMNS: ColumnConfig[] = [
     id: 'TODO',
     title: 'To Do',
     badgeClass: 'clay-pill-amber',
-    icon: <Clock className="w-4 h-4 text-[#9A3412]" />,
-    headerColor: 'border-[#FED7AA]',
+    icon: <Clock className="w-3.5 h-3.5 text-amber-600" />,
+    borderClass: 'border-l-2 border-l-amber-400',
   },
   {
     id: 'IN_PROGRESS',
     title: 'In Progress',
     badgeClass: 'clay-pill-blue',
-    icon: <Clock className="w-4 h-4 text-[#1E40AF]" />,
-    headerColor: 'border-[#7CA1FF]',
+    icon: <Clock className="w-3.5 h-3.5 text-indigo-600" />,
+    borderClass: 'border-l-2 border-l-indigo-500',
   },
   {
     id: 'IN_REVIEW',
     title: 'In Review',
     badgeClass: 'clay-pill-purple',
-    icon: <Eye className="w-4 h-4 text-[#6D28D9]" />,
-    headerColor: 'border-[#DDD6FE]',
+    icon: <Eye className="w-3.5 h-3.5 text-purple-600" />,
+    borderClass: 'border-l-2 border-l-purple-500',
   },
   {
     id: 'COMPLETED',
     title: 'Completed',
     badgeClass: 'clay-pill-green',
-    icon: <CheckCircle2 className="w-4 h-4 text-[#065F46]" />,
-    headerColor: 'border-[#A2E0C1]',
+    icon: <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />,
+    borderClass: 'border-l-2 border-l-emerald-500',
   },
 ];
 
@@ -71,36 +71,36 @@ export const TaskKanbanBoard: React.FC<TaskKanbanBoardProps> = ({
         return (
           <div
             key={col.id}
-            className="clay-sunken p-3 rounded-2xl flex flex-col min-h-[500px]"
+            className="bg-slate-100/70 border border-slate-200/70 p-2.5 rounded-xl flex flex-col min-h-[500px]"
           >
             {/* Column Header */}
-            <div className={`flex items-center justify-between p-2.5 rounded-xl bg-white shadow-sm mb-3 border-l-4 ${col.headerColor}`}>
+            <div className={`flex items-center justify-between p-2 rounded-lg bg-white border border-slate-200/80 shadow-xs mb-2.5 ${col.borderClass}`}>
               <div className="flex items-center gap-2 min-w-0">
                 {col.icon}
-                <h4 className="font-extrabold text-[#2D3748] text-xs sm:text-sm truncate">
+                <h4 className="font-semibold text-slate-800 text-xs sm:text-sm truncate">
                   {col.title}
                 </h4>
               </div>
 
               <div className="flex items-center gap-1.5">
-                <span className={`text-[11px] font-extrabold px-2 py-0.5 rounded-full ${col.badgeClass}`}>
+                <span className={`text-[10px] font-medium px-2 py-0.5 rounded-md ${col.badgeClass}`}>
                   {columnTasks.length}
                 </span>
 
                 {canCreateTask && (
                   <button
                     onClick={() => onAddTaskInColumn(col.id)}
-                    className="w-6 h-6 rounded-lg clay-btn-secondary flex items-center justify-center text-slate-500 hover:text-[#1E40AF]"
+                    className="w-5 h-5 rounded-md border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-500 hover:text-indigo-600 transition-colors"
                     title={`Tambah di ${col.title}`}
                   >
-                    <Plus className="w-3.5 h-3.5" />
+                    <Plus className="w-3 h-3" />
                   </button>
                 )}
               </div>
             </div>
 
             {/* Task Cards List */}
-            <div className="space-y-2.5 flex-1 overflow-y-auto max-h-[720px] pr-1">
+            <div className="space-y-2 flex-1 overflow-y-auto max-h-[720px] pr-0.5">
               {columnTasks.map((task) => {
                 const assignedUser = users.find((u) => u.id === task.assignedTo);
                 const division = divisions.find((d) => d.id === task.divisionId);
@@ -119,7 +119,7 @@ export const TaskKanbanBoard: React.FC<TaskKanbanBoardProps> = ({
               })}
 
               {columnTasks.length === 0 && (
-                <div className="text-center py-12 px-3 text-slate-400 text-xs border border-dashed border-[#D1D9E6] rounded-xl my-2">
+                <div className="text-center py-12 px-3 text-slate-400 text-xs border border-dashed border-slate-200 rounded-lg my-1">
                   Kosong
                 </div>
               )}

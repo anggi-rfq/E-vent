@@ -20,17 +20,17 @@ export const OverdueAlertBanner: React.FC<OverdueAlertBannerProps> = ({
   if (overdueTasks.length === 0) return null;
 
   return (
-    <div className="w-full clay-card p-4 sm:p-5 bg-[#FFE2E7]/40 border border-rose-200/80">
+    <div className="w-full bg-rose-50/50 border border-rose-200/90 rounded-xl p-4 sm:p-5 shadow-xs">
       <div className="flex items-center justify-between gap-3 mb-3">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-xl bg-[#FFB6C1] text-[#881337] flex items-center justify-center shrink-0 shadow-sm">
-            <AlertCircle className="w-4 h-4" />
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-md bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
+            <AlertCircle className="w-3.5 h-3.5" />
           </div>
-          <h4 className="font-display font-extrabold text-[#2D3748] text-sm sm:text-base">
+          <h4 className="font-display font-semibold text-rose-950 text-sm">
             {overdueTasks.length} Tugas Melewati Batas Waktu
           </h4>
         </div>
-        <span className="text-[11px] font-bold text-rose-600 bg-rose-100/80 px-2.5 py-0.5 rounded-full">
+        <span className="text-[11px] font-medium text-rose-700 bg-rose-100/90 px-2 py-0.5 rounded-md">
           Perlu Tindakan
         </span>
       </div>
@@ -46,17 +46,17 @@ export const OverdueAlertBanner: React.FC<OverdueAlertBannerProps> = ({
             <div
               key={task.id}
               onClick={() => onSelectTask(task)}
-              className="clay-card-flat p-3 bg-white/95 cursor-pointer hover:bg-white transition-all flex flex-col justify-between group"
+              className="bg-white border border-rose-200/60 rounded-lg p-3 cursor-pointer hover:border-rose-300 hover:shadow-xs transition-colors flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-1.5">
-                  <span className="text-[11px] font-bold text-[#7CA1FF] truncate">
+                  <span className="text-[11px] font-medium text-indigo-600 truncate">
                     {division?.name || 'Divisi'}
                   </span>
                   <PriorityBadge priority={task.priority} />
                 </div>
 
-                <h5 className="font-bold text-[#2D3748] text-xs sm:text-sm line-clamp-1 group-hover:text-rose-600 transition-colors">
+                <h5 className="font-medium text-slate-900 text-xs line-clamp-1 group-hover:text-rose-600 transition-colors">
                   {task.title}
                 </h5>
               </div>
@@ -66,15 +66,15 @@ export const OverdueAlertBanner: React.FC<OverdueAlertBannerProps> = ({
                   <img
                     src={assignedUser?.avatar}
                     alt={assignedUser?.name}
-                    className="w-5 h-5 rounded-md object-cover border border-white shrink-0"
+                    className="w-4 h-4 rounded-full object-cover shrink-0"
                     title={assignedUser?.name}
                   />
-                  <span className="text-[#4A5568] font-semibold truncate text-[11px] max-w-[100px]">
+                  <span className="text-slate-500 font-normal truncate text-[11px] max-w-[100px]">
                     {assignedUser?.name || 'Belum ada PIC'}
                   </span>
                 </div>
 
-                <span className="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full flex items-center gap-1 shrink-0">
+                <span className="text-[10px] font-medium text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded flex items-center gap-1 shrink-0">
                   <Clock className="w-3 h-3" />
                   {deadlineInfo.label}
                 </span>

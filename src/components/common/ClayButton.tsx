@@ -17,9 +17,9 @@ export const ClayButton: React.FC<ClayButtonProps> = ({
   ...props
 }) => {
   const sizeClasses = {
-    sm: 'px-3.5 py-1.5 text-xs font-semibold gap-1.5 rounded-xl',
-    md: 'px-5 py-2.5 text-sm font-bold gap-2 rounded-2xl',
-    lg: 'px-7 py-3 text-base font-bold gap-2.5 rounded-2xl',
+    sm: 'px-3 py-1.5 text-xs font-medium gap-1.5 rounded-lg',
+    md: 'px-4 py-2 text-sm font-medium gap-2 rounded-xl',
+    lg: 'px-5 py-2.5 text-sm font-semibold gap-2 rounded-xl',
   };
 
   const variantClasses = {

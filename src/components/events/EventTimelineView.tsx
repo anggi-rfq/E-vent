@@ -6,14 +6,10 @@ import { EventMilestone } from '../../types';
 import { formatIndonesianDate } from '../../utils/dateUtils';
 import { 
   Calendar, 
-  CheckCircle2, 
   Circle, 
   Plus, 
   Clock, 
-  Flag, 
-  Sparkles, 
-  CheckCheck,
-  CalendarCheck2
+  CheckCheck
 } from 'lucide-react';
 
 export const EventTimelineView: React.FC = () => {
@@ -71,33 +67,33 @@ export const EventTimelineView: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="clay-card p-6 bg-gradient-to-r from-indigo-50 via-blue-50 to-purple-50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-300">
-            <Clock className="w-7 h-7" />
+      <div className="bg-white border border-slate-200/80 rounded-xl p-5 sm:p-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+            <Clock className="w-5 h-5" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-indigo-600">
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
                 Master Road Map
               </span>
-              <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-white text-indigo-700 shadow-sm">
+              <span className="text-xs font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
                 {activeEvent?.name}
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-800 font-display mt-0.5">
+            <h2 className="text-lg sm:text-xl font-semibold text-slate-900 font-display">
               Timeline & Tahapan Pelaksanaan Event
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 font-medium mt-1">
-              Rangkaian milestone mulai dari perencanaan, persiapan, gladi bersih, hingga hari-H pelaksanaan.
+            <p className="text-xs text-slate-500 mt-0.5">
+              Rangkaian milestone mulai dari perencanaan, persiapan, gladi bersih, hingga hari-H.
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="clay-card-flat px-4 py-2 text-right">
-            <span className="text-[11px] font-bold text-slate-500 uppercase">Milestone Tercapai</span>
-            <p className="text-lg font-extrabold text-indigo-600 font-display">
+          <div className="p-2.5 rounded-lg border border-slate-200/70 bg-slate-50 text-right">
+            <span className="text-[10px] text-slate-400 uppercase font-medium">Milestone Tercapai</span>
+            <p className="text-base font-semibold text-indigo-600 font-display">
               {completedMilestones} / {eventMilestones.length} ({progressPercent}%)
             </p>
           </div>
@@ -116,13 +112,13 @@ export const EventTimelineView: React.FC = () => {
       </div>
 
       {/* Timeline Stream */}
-      <div className="space-y-8 relative before:absolute before:inset-0 before:left-6 md:before:left-1/2 before:w-1 before:bg-indigo-200 before:rounded-full">
-        {Object.entries(groupedMilestones).map(([month, items], groupIndex) => (
+      <div className="space-y-8 relative before:absolute before:inset-0 before:left-6 md:before:left-1/2 before:w-0.5 before:bg-slate-200">
+        {Object.entries(groupedMilestones).map(([month, items]) => (
           <div key={month} className="space-y-4">
             {/* Month Header Pill */}
             <div className="flex justify-start md:justify-center relative z-10 pl-14 md:pl-0">
-              <div className="clay-pill bg-indigo-600 text-white px-5 py-2 text-xs font-extrabold tracking-wider uppercase shadow-lg shadow-indigo-300">
-                📅 {month}
+              <div className="bg-slate-900 text-white px-4 py-1.5 text-xs font-medium tracking-wide uppercase rounded-full shadow-xs">
+                {month}
               </div>
             </div>
 
@@ -143,16 +139,16 @@ export const EventTimelineView: React.FC = () => {
                       onClick={() => canManageTimeline && toggleMilestone(milestone.id)}
                       disabled={!canManageTimeline}
                       title={canManageTimeline ? 'Klik untuk mengubah status milestone' : undefined}
-                      className={`absolute left-3.5 md:left-1/2 -translate-x-1/2 z-20 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                      className={`absolute left-3.5 md:left-1/2 -translate-x-1/2 z-20 w-7 h-7 rounded-full flex items-center justify-center transition-colors ${
                         milestone.isCompleted
-                          ? 'bg-emerald-500 text-white shadow-[0_0_12px_rgba(16,185,129,0.7)] scale-110'
+                          ? 'bg-emerald-500 text-white shadow-xs'
                           : 'bg-white border-2 border-slate-300 text-slate-400 hover:border-indigo-500'
                       }`}
                     >
                       {milestone.isCompleted ? (
-                        <CheckCheck className="w-4 h-4 font-bold" />
+                        <CheckCheck className="w-3.5 h-3.5" />
                       ) : (
-                        <Circle className="w-3.5 h-3.5 text-slate-300" />
+                        <Circle className="w-3 h-3 text-slate-300" />
                       )}
                     </button>
 
@@ -160,46 +156,46 @@ export const EventTimelineView: React.FC = () => {
                     <div className="w-full md:w-[calc(50%-2rem)]">
                       <div
                         onClick={() => canManageTimeline && toggleMilestone(milestone.id)}
-                        className={`clay-card p-5 transition-all ${
-                          canManageTimeline ? 'cursor-pointer hover:scale-[1.01]' : ''
+                        className={`bg-white border rounded-xl p-4 sm:p-5 shadow-xs transition-colors ${
+                          canManageTimeline ? 'cursor-pointer hover:border-slate-300' : ''
                         } ${
                           milestone.isCompleted
-                            ? 'bg-emerald-50/40 border-emerald-200 shadow-emerald-100'
-                            : 'bg-white'
+                            ? 'bg-emerald-50/20 border-emerald-200/80'
+                            : 'border-slate-200/80'
                         }`}
                       >
                         <div className="flex items-center justify-between gap-2 mb-2">
-                          <span className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full ${
+                          <span className={`text-[10px] font-medium uppercase px-2 py-0.5 rounded-md ${
                             milestone.isCompleted
                               ? 'bg-emerald-100 text-emerald-800'
-                              : 'bg-indigo-100 text-indigo-800'
+                              : 'bg-indigo-50 text-indigo-700'
                           }`}>
                             {milestone.category}
                           </span>
 
-                          <span className="text-xs font-bold text-slate-500 flex items-center gap-1">
+                          <span className="text-xs text-slate-500 flex items-center gap-1">
                             <Calendar className="w-3.5 h-3.5 text-indigo-500" />
                             {formatIndonesianDate(milestone.targetDate)}
                           </span>
                         </div>
 
-                        <h4 className={`text-base font-extrabold font-display ${
-                          milestone.isCompleted ? 'text-emerald-900 line-through' : 'text-slate-800'
+                        <h4 className={`text-sm sm:text-base font-semibold font-display ${
+                          milestone.isCompleted ? 'text-emerald-900 line-through' : 'text-slate-900'
                         }`}>
                           {milestone.title}
                         </h4>
 
-                        <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                        <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                           {milestone.description}
                         </p>
 
                         <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                          <span className={milestone.isCompleted ? 'text-emerald-600 font-bold' : 'text-amber-600 font-bold'}>
+                          <span className={milestone.isCompleted ? 'text-emerald-600 font-medium' : 'text-amber-600 font-medium'}>
                             {milestone.isCompleted ? '✓ Telah Rampung' : '⏳ Belum Selesai'}
                           </span>
 
                           {canManageTimeline && (
-                            <span className="text-slate-400 font-medium">
+                            <span className="text-slate-400 font-normal">
                               Klik untuk switch status
                             </span>
                           )}
@@ -223,7 +219,7 @@ export const EventTimelineView: React.FC = () => {
       >
         <form onSubmit={handleAddMilestone} className="space-y-4 py-2">
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1.5">
               Judul Milestone *
             </label>
             <input
@@ -238,7 +234,7 @@ export const EventTimelineView: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1.5">
                 Bulan & Tahun *
               </label>
               <input
@@ -252,7 +248,7 @@ export const EventTimelineView: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1.5">
                 Target Tanggal *
               </label>
               <input
@@ -266,13 +262,13 @@ export const EventTimelineView: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1.5">
               Kategori Tahapan
             </label>
             <select
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value as any)}
-              className="w-full clay-input p-3 text-sm text-slate-800 font-semibold"
+              className="w-full clay-input p-3 text-sm text-slate-800 font-medium"
             >
               <option value="PLANNING">PLANNING (Perencanaan & Konsep)</option>
               <option value="PREPARATION">PREPARATION (Persiapan & Promosi)</option>
@@ -282,7 +278,7 @@ export const EventTimelineView: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-medium text-slate-700 uppercase tracking-wider mb-1.5">
               Deskripsi Detail
             </label>
             <textarea
@@ -294,7 +290,7 @@ export const EventTimelineView: React.FC = () => {
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
             <ClayButton
               type="button"
               variant="secondary"

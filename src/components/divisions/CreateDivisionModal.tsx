@@ -121,9 +121,9 @@ export const CreateDivisionModal: React.FC<CreateDivisionModalProps> = ({
                 key={c}
                 type="button"
                 onClick={() => setColor(c)}
-                className={`w-9 h-9 rounded-2xl transition-all ${
+                className={`w-7 h-7 rounded-lg transition-transform ${
                   color === c
-                    ? 'ring-4 ring-indigo-400 scale-110 shadow-lg'
+                    ? 'ring-2 ring-indigo-500 ring-offset-2 scale-110'
                     : 'opacity-80 hover:opacity-100'
                 }`}
                 style={{ backgroundColor: c }}

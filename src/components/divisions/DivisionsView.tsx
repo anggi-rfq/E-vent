@@ -5,7 +5,7 @@ import { AddMemberModal } from './AddMemberModal';
 import { ClayButton } from '../common/ClayButton';
 import { ClayProgressBar } from '../common/ClayProgressBar';
 import { RoleBadge } from '../common/ClayBadge';
-import { Division, EventMember } from '../../types';
+import { Division } from '../../types';
 import { formatIndonesianDate } from '../../utils/dateUtils';
 import { 
   Layers, 
@@ -16,9 +16,7 @@ import {
   UserPlus, 
   Mail, 
   Phone, 
-  CheckSquare, 
   Search, 
-  Sparkles,
   UserX
 } from 'lucide-react';
 
@@ -81,21 +79,21 @@ export const DivisionsView: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="clay-card p-5 sm:p-6 bg-gradient-to-r from-[#F0F4FF] via-[#E9F0FD] to-[#E6EEFA] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-white border border-slate-200/80 rounded-xl p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-[#7CA1FF] text-white flex items-center justify-center shadow-md">
-            <Layers className="w-6 h-6" />
+          <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+            <Layers className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2 mb-0.5">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#7CA1FF]">
+              <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
                 Struktur Kepanitiaan
               </span>
-              <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-white text-[#1E40AF] shadow-sm">
+              <span className="text-xs font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
                 {activeEvent?.name}
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#2D3748] font-display">
+            <h2 className="text-lg sm:text-xl font-semibold text-slate-900 font-display">
               Divisi & Anggota Panitia
             </h2>
           </div>
@@ -110,7 +108,7 @@ export const DivisionsView: React.FC = () => {
                 setSelectedDivForMember(undefined);
                 setIsAddMemberModalOpen(true);
               }}
-              icon={<UserPlus className="w-4 h-4 text-[#1E40AF]" />}
+              icon={<UserPlus className="w-4 h-4 text-slate-600" />}
             >
               Tambah Panitia
             </ClayButton>
@@ -134,28 +132,28 @@ export const DivisionsView: React.FC = () => {
 
       {/* Tabs Switcher: Divisi vs Direktori Panitia */}
       <div className="flex items-center justify-between flex-wrap gap-4 border-b border-slate-200/80 pb-3">
-        <div className="flex items-center gap-2">
+        <div className="bg-slate-100 p-1 rounded-lg border border-slate-200/60 flex items-center gap-1">
           <button
             onClick={() => setActiveTab('divisions')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+            className={`px-3.5 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-2 ${
               activeTab === 'divisions'
-                ? 'clay-pill-blue text-indigo-700 bg-white shadow-md'
+                ? 'bg-white text-slate-900 shadow-xs'
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Layers className="w-4 h-4" />
+            <Layers className="w-3.5 h-3.5" />
             <span>Daftar Divisi ({eventDivisions.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('members')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+            className={`px-3.5 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-2 ${
               activeTab === 'members'
-                ? 'clay-pill-blue text-indigo-700 bg-white shadow-md'
+                ? 'bg-white text-slate-900 shadow-xs'
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Users className="w-4 h-4" />
+            <Users className="w-3.5 h-3.5" />
             <span>Direktori Panitia ({eventMembers.length})</span>
           </button>
         </div>
@@ -164,13 +162,13 @@ export const DivisionsView: React.FC = () => {
           <div className="flex items-center gap-3 flex-wrap">
             {/* Search Input */}
             <div className="relative">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Cari nama / posisi..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="clay-input pl-9 pr-3 py-1.5 text-xs text-slate-800 w-48 sm:w-56"
+                className="clay-input pl-8 pr-3 py-1.5 text-xs text-slate-800 w-48 sm:w-56"
               />
             </div>
 
@@ -178,7 +176,7 @@ export const DivisionsView: React.FC = () => {
             <select
               value={filterDivisionId}
               onChange={(e) => setFilterDivisionId(e.target.value)}
-              className="clay-input px-3 py-1.5 text-xs text-slate-800 font-semibold"
+              className="clay-input px-3 py-1.5 text-xs text-slate-800 font-medium"
             >
               <option value="ALL">Semua Divisi</option>
               {eventDivisions.map((d) => (
@@ -209,16 +207,16 @@ export const DivisionsView: React.FC = () => {
             return (
               <div
                 key={div.id}
-                className="clay-card p-6 flex flex-col justify-between hover:scale-[1.01] transition-all group"
+                className="bg-white border border-slate-200/80 rounded-xl p-5 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-colors group"
               >
                 <div>
-                  <div className="flex items-center justify-between gap-2 mb-3">
+                  <div className="flex items-center justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2">
                       <span
-                        className="w-4 h-4 rounded-full shadow-sm"
-                        style={{ backgroundColor: div.color || '#6366f1' }}
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: div.color || '#4F46E5' }}
                       />
-                      <h3 className="font-extrabold text-slate-800 text-lg font-display group-hover:text-indigo-600 transition-colors">
+                      <h3 className="font-semibold text-slate-900 text-base font-display group-hover:text-indigo-600 transition-colors">
                         {div.name}
                       </h3>
                     </div>
@@ -227,14 +225,14 @@ export const DivisionsView: React.FC = () => {
                       <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
                           onClick={() => handleEditDiv(div)}
-                          className="w-7 h-7 rounded-lg clay-btn-secondary flex items-center justify-center text-slate-500 hover:text-indigo-600"
+                          className="w-7 h-7 rounded-md border border-slate-200 hover:bg-slate-50 flex items-center justify-center text-slate-500 hover:text-indigo-600"
                           title="Edit Divisi"
                         >
                           <Edit className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => handleDeleteDiv(div)}
-                          className="w-7 h-7 rounded-lg clay-btn-secondary flex items-center justify-center text-slate-500 hover:text-rose-600"
+                          className="w-7 h-7 rounded-md border border-slate-200 hover:bg-slate-50 flex items-center justify-center text-slate-500 hover:text-rose-600"
                           title="Hapus Divisi"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -248,35 +246,35 @@ export const DivisionsView: React.FC = () => {
                   </p>
 
                   {/* Coordinator Profile Card */}
-                  <div className="clay-card-flat p-3 flex items-center gap-3 mb-4 bg-slate-50/80">
+                  <div className="p-2.5 rounded-lg border border-slate-100 bg-slate-50/60 flex items-center gap-2.5 mb-3.5">
                     <img
                       src={coordinator?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100'}
                       alt={coordinator?.name}
-                      className="w-10 h-10 rounded-xl object-cover border-2 border-white shadow-sm shrink-0"
+                      className="w-8 h-8 rounded-lg object-cover border border-slate-200 shrink-0"
                     />
                     <div className="min-w-0 flex-1">
-                      <span className="text-[10px] font-extrabold uppercase text-indigo-600 tracking-wider">
-                        Koordinator Divisi
+                      <span className="text-[10px] font-medium uppercase text-indigo-600 tracking-wider">
+                        Koordinator
                       </span>
-                      <h4 className="font-bold text-slate-800 text-xs sm:text-sm truncate">
+                      <h4 className="font-medium text-slate-900 text-xs truncate">
                         {coordinator?.name || 'Belum ditentukan'}
                       </h4>
-                      <p className="text-[11px] text-slate-500 truncate">{coordinator?.email}</p>
+                      <p className="text-[11px] text-slate-400 truncate">{coordinator?.email}</p>
                     </div>
                   </div>
 
                   {/* Task & Member Metrics */}
-                  <div className="grid grid-cols-2 gap-2 text-center mb-4">
-                    <div className="clay-sunken-sm p-2">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase">Anggota</span>
-                      <p className="text-base font-extrabold text-slate-800 font-display">
+                  <div className="grid grid-cols-2 gap-2 text-center mb-3.5">
+                    <div className="p-2 rounded-lg bg-slate-50 border border-slate-100">
+                      <span className="text-[10px] text-slate-400 uppercase font-medium">Anggota</span>
+                      <p className="text-sm font-semibold text-slate-900 font-display">
                         {divMembers.length} Orang
                       </p>
                     </div>
 
-                    <div className="clay-sunken-sm p-2">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase">Tugas</span>
-                      <p className="text-base font-extrabold text-indigo-600 font-display">
+                    <div className="p-2 rounded-lg bg-slate-50 border border-slate-100">
+                      <span className="text-[10px] text-slate-400 uppercase font-medium">Tugas</span>
+                      <p className="text-sm font-semibold text-indigo-600 font-display">
                         {completedTasks}/{divTasks.length} Selesai
                       </p>
                     </div>
@@ -284,22 +282,22 @@ export const DivisionsView: React.FC = () => {
 
                   {/* Progress Bar */}
                   <div>
-                    <div className="flex justify-between text-xs font-bold text-slate-700 mb-1">
-                      <span>Progres Divisi</span>
-                      <span className="text-indigo-600">{progress}%</span>
+                    <div className="flex justify-between text-xs text-slate-600 mb-1">
+                      <span className="font-medium">Progres Divisi</span>
+                      <span className="font-semibold text-indigo-600">{progress}%</span>
                     </div>
                     <ClayProgressBar progress={progress} size="sm" />
                   </div>
                 </div>
 
                 {/* Footer Action */}
-                <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
+                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
                   <button
                     onClick={() => {
                       setFilterDivisionId(div.id);
                       setActiveTab('members');
                     }}
-                    className="text-xs font-bold text-indigo-600 hover:underline"
+                    className="text-xs font-medium text-indigo-600 hover:text-indigo-800"
                   >
                     Lihat {divMembers.length} Anggota →
                   </button>
@@ -309,7 +307,7 @@ export const DivisionsView: React.FC = () => {
                       setSelectedDivForMember(div.id);
                       setIsAddMemberModalOpen(true);
                     }}
-                    className="clay-pill-blue text-[11px] px-3 py-1 font-bold hover:bg-indigo-600 hover:text-white transition-colors"
+                    className="text-[11px] px-2.5 py-1 rounded-md font-medium bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors"
                   >
                     + Anggota
                   </button>
@@ -320,11 +318,11 @@ export const DivisionsView: React.FC = () => {
         </div>
       ) : (
         /* Table of Members */
-        <div className="clay-card p-6">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-5 shadow-xs">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs sm:text-sm">
               <thead>
-                <tr className="border-b border-slate-200/80 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+                <tr className="border-b border-slate-200 text-slate-500 font-medium uppercase tracking-wider text-[11px]">
                   <th className="pb-3 pl-2">Panitia / Personil</th>
                   <th className="pb-3">Divisi</th>
                   <th className="pb-3">Posisi / Jabatan</th>
@@ -340,33 +338,33 @@ export const DivisionsView: React.FC = () => {
 
                   return (
                     <tr key={member.id} className="hover:bg-slate-50/70 transition-colors">
-                      <td className="py-3.5 pl-2">
-                        <div className="flex items-center gap-3">
+                      <td className="py-3 pl-2">
+                        <div className="flex items-center gap-2.5">
                           <img
                             src={user?.avatar}
                             alt={user?.name}
-                            className="w-10 h-10 rounded-xl object-cover border-2 border-white shadow-sm shrink-0"
+                            className="w-8 h-8 rounded-lg object-cover border border-slate-200 shrink-0"
                           />
                           <div>
-                            <p className="font-extrabold text-slate-800 text-sm">{user?.name}</p>
+                            <p className="font-medium text-slate-900 text-xs sm:text-sm">{user?.name}</p>
                             <div className="mt-0.5">
-                              <RoleBadge role={user?.role || 'MEMBER'} />
+                              <RoleBadge role={user?.role || 'MEMBER'} size="sm" />
                             </div>
                           </div>
                         </div>
                       </td>
 
-                      <td className="py-3.5">
-                        <span className="clay-pill-blue text-xs px-2.5 py-1 font-bold">
+                      <td className="py-3">
+                        <span className="text-xs px-2 py-0.5 rounded-md font-medium bg-indigo-50 text-indigo-700">
                           {div?.name || 'Umum'}
                         </span>
                       </td>
 
-                      <td className="py-3.5 font-bold text-slate-700">
+                      <td className="py-3 font-medium text-slate-700 text-xs">
                         {member.position}
                       </td>
 
-                      <td className="py-3.5 text-xs text-slate-500">
+                      <td className="py-3 text-xs text-slate-500">
                         <div className="flex items-center gap-1.5">
                           <Mail className="w-3.5 h-3.5 text-slate-400" />
                           <span>{user?.email}</span>
@@ -379,18 +377,18 @@ export const DivisionsView: React.FC = () => {
                         )}
                       </td>
 
-                      <td className="py-3.5 text-xs text-slate-500 font-medium">
+                      <td className="py-3 text-xs text-slate-500 font-normal">
                         {formatIndonesianDate(member.joinedAt)}
                       </td>
 
-                      <td className="py-3.5 pr-2 text-right">
+                      <td className="py-3 pr-2 text-right">
                         {canManage && (
                           <button
                             onClick={() => handleRemoveMember(member.id, user?.name || 'Anggota')}
-                            className="w-8 h-8 rounded-xl clay-btn-secondary inline-flex items-center justify-center text-slate-400 hover:text-rose-600 transition-colors"
+                            className="w-7 h-7 rounded-md border border-slate-200 hover:bg-slate-50 inline-flex items-center justify-center text-slate-400 hover:text-rose-600 transition-colors"
                             title="Hapus dari Panitia Event"
                           >
-                            <UserX className="w-4 h-4" />
+                            <UserX className="w-3.5 h-3.5" />
                           </button>
                         )}
                       </td>
@@ -400,7 +398,7 @@ export const DivisionsView: React.FC = () => {
 
                 {filteredMembers.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="text-center py-12 text-slate-400 text-sm">
+                    <td colSpan={6} className="text-center py-12 text-slate-400 text-xs">
                       Tidak ada anggota panitia yang sesuai dengan kriteria pencarian.
                     </td>
                   </tr>

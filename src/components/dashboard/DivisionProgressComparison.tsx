@@ -32,16 +32,16 @@ export const DivisionProgressComparison: React.FC<DivisionProgressComparisonProp
   });
 
   return (
-    <div className="clay-card p-6">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="w-10 h-10 rounded-2xl bg-[#DCE8FE] text-[#1E40AF] flex items-center justify-center shadow-inner">
-          <Layers className="w-5 h-5" />
+    <div className="bg-white border border-slate-200/80 rounded-xl p-5 sm:p-6 shadow-xs">
+      <div className="flex items-center gap-2.5 mb-5">
+        <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+          <Layers className="w-4 h-4" />
         </div>
         <div>
-          <h3 className="text-base sm:text-lg font-extrabold text-[#2D3748] font-display">
+          <h3 className="text-sm sm:text-base font-semibold text-slate-900 font-display">
             Progres Divisi
           </h3>
-          <p className="text-xs text-[#4A5568] font-medium">
+          <p className="text-xs text-slate-500">
             Status penyelesaian tugas per bidang
           </p>
         </div>
@@ -52,24 +52,24 @@ export const DivisionProgressComparison: React.FC<DivisionProgressComparisonProp
           <div
             key={stat.division.id}
             onClick={() => onSelectDivision && onSelectDivision(stat.division.id)}
-            className="clay-card-flat p-4 hover:bg-white transition-all cursor-pointer group"
+            className="p-3.5 rounded-lg border border-slate-200/70 hover:border-slate-300 hover:bg-slate-50/50 transition-colors cursor-pointer group"
           >
             <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2">
                 <span
-                  className="w-3 h-3 rounded-full shrink-0 shadow-sm"
-                  style={{ backgroundColor: stat.division.color || '#7CA1FF' }}
+                  className="w-2.5 h-2.5 rounded-full shrink-0"
+                  style={{ backgroundColor: stat.division.color || '#4F46E5' }}
                 />
-                <h4 className="text-sm font-bold text-[#2D3748] group-hover:text-[#7CA1FF] transition-colors">
+                <h4 className="text-xs sm:text-sm font-medium text-slate-800 group-hover:text-indigo-600 transition-colors">
                   {stat.division.name}
                 </h4>
               </div>
 
-              <div className="flex items-center gap-3 text-xs font-semibold">
-                <span className="text-[#4A5568]">
+              <div className="flex items-center gap-2.5 text-xs">
+                <span className="text-slate-500">
                   {stat.completedTasks}/{stat.totalTasks} Selesai
                 </span>
-                <span className="font-extrabold text-[#1E40AF] bg-[#DCE8FE] px-2 py-0.5 rounded-lg">
+                <span className="font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md text-[11px]">
                   {stat.avgProgress}%
                 </span>
               </div>
@@ -80,7 +80,7 @@ export const DivisionProgressComparison: React.FC<DivisionProgressComparisonProp
         ))}
 
         {divisionStats.length === 0 && (
-          <div className="text-center py-6 text-slate-400 text-sm">
+          <div className="text-center py-6 text-slate-400 text-xs">
             Belum ada divisi untuk event ini.
           </div>
         )}

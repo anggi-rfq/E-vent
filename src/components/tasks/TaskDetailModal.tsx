@@ -189,13 +189,13 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
             <span>Ubah Status Tugas:</span>
           </span>
 
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 flex-wrap">
             <button
               onClick={() => updateTaskStatus(task.id, 'TODO')}
-              className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
                 task.status === 'TODO'
-                  ? 'bg-amber-500 text-white shadow-md'
-                  : 'clay-btn-secondary hover:bg-amber-50'
+                  ? 'bg-amber-500 text-white shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-amber-50/50 hover:border-amber-200'
               }`}
             >
               To Do
@@ -203,10 +203,10 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
 
             <button
               onClick={() => updateTaskStatus(task.id, 'IN_PROGRESS')}
-              className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
                 task.status === 'IN_PROGRESS'
-                  ? 'bg-indigo-600 text-white shadow-md'
-                  : 'clay-btn-secondary hover:bg-indigo-50'
+                  ? 'bg-indigo-600 text-white shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-indigo-50/50 hover:border-indigo-200'
               }`}
             >
               In Progress
@@ -214,21 +214,21 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
 
             <button
               onClick={() => updateTaskStatus(task.id, 'IN_REVIEW')}
-              className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
                 task.status === 'IN_REVIEW'
-                  ? 'bg-purple-600 text-white shadow-md'
-                  : 'clay-btn-secondary hover:bg-purple-50'
+                  ? 'bg-purple-600 text-white shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-purple-50/50 hover:border-purple-200'
               }`}
             >
-              Kirim ke Review 👁️
+              Kirim ke Review
             </button>
 
             <button
               onClick={() => updateTaskStatus(task.id, 'COMPLETED')}
-              className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
                 task.status === 'COMPLETED'
-                  ? 'bg-emerald-600 text-white shadow-md'
-                  : 'clay-btn-secondary hover:bg-emerald-50 text-emerald-700'
+                  ? 'bg-emerald-600 text-white shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-emerald-50/50 hover:border-emerald-200 text-emerald-700'
               }`}
             >
               ✓ Setujui & Selesai
