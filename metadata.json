@@ -1,0 +1,6 @@
+{
+  "name": "E-vent - Event & Committee Management",
+  "description": "Sistem manajemen event dan kepanitiaan terpusat dengan gaya desain Claymorphism, mendukung pembagian divisi, task management, pemantauan deadline, dan dashboard multi-role.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
