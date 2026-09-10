@@ -88,6 +88,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   const [currentUser, setCurrentUser] = useState<User>(() => {
+    // Prioritaskan session auth yang tersimpan
+    const sessionStr = localStorage.getItem('panitiahub_session');
+    if (sessionStr) {
+      try {
+        const session = JSON.parse(sessionStr);
+        const found = users.find(u => u.id === session.userId);
+        if (found) return found;
+      } catch { /* ignore */ }
+    }
     const savedId = localStorage.getItem(STORAGE_PREFIX + 'current_user_id');
     const found = users.find(u => u.id === savedId);
     return found || users[1]; // Default to Event Manager (Andi)

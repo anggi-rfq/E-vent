@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { useAuth } from '../../context/AuthContext';
 import { RoleBadge } from '../common/ClayBadge';
 import { ClayButton } from '../common/ClayButton';
 import { QuickUserSwitcherModal } from './QuickUserSwitcherModal';
@@ -14,7 +15,8 @@ import {
   ChevronDown, 
   LayoutDashboard,
   Clock,
-  Sparkles
+  Sparkles,
+  LogOut
 } from 'lucide-react';
 
 export type NavTab = 'dashboard' | 'timeline' | 'divisions' | 'tasks' | 'attachments' | 'users';
@@ -41,6 +43,13 @@ export const Navbar: React.FC<NavbarProps> = ({
     setActiveEventId, 
     resetToDefaultData 
   } = useApp();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    if (confirm('Yakin ingin keluar dari sistem?')) {
+      logout();
+    }
+  };
 
   const [internalUserSwitcherOpen, setInternalUserSwitcherOpen] = useState(false);
   const [isEventMenuOpen, setIsEventMenuOpen] = useState(false);
@@ -194,6 +203,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                 title="Reset Data Demo ke Default"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
+              </button>
+
+              {/* Logout Button */}
+              <button
+                id="navbar-logout-btn"
+                onClick={handleLogout}
+                className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50 shadow-xs flex items-center justify-center transition-colors"
+                title="Keluar dari sistem"
+              >
+                <LogOut className="w-3.5 h-3.5" />
               </button>
 
               {/* Current User Pill / Switcher trigger */}

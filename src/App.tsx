@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { LoginPage } from './components/auth/LoginPage';
+import { RegisterPage } from './components/auth/RegisterPage';
 import { Navbar, NavTab } from './components/layout/Navbar';
 import { DashboardView } from './components/dashboard/DashboardView';
 import { TasksView } from './components/tasks/TasksView';
@@ -64,7 +67,7 @@ const MainContent: React.FC = () => {
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
             <span className="font-semibold text-slate-900 font-display">E-vent</span>
-            <span>— Sistem Manajemen Kepanitiaan Modern & Minimalis</span>
+            <span>— Sistem Manajemen Kepanitiaan Modern &amp; Minimalis</span>
           </div>
 
           <div className="flex items-center gap-3">
@@ -115,10 +118,39 @@ const MainContent: React.FC = () => {
   );
 };
 
-export default function App() {
+/** Auth gate: tampilkan login/register jika belum autentikasi */
+const AuthGate: React.FC = () => {
+  const { isAuthenticated, isLoading, authPage } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg">
+            <span className="text-white font-black text-xl">E</span>
+          </div>
+          <div className="w-6 h-6 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
+          <p className="text-slate-500 text-sm font-medium">Memuat sistem...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return authPage === 'register' ? <RegisterPage /> : <LoginPage />;
+  }
+
   return (
     <AppProvider>
       <MainContent />
     </AppProvider>
+  );
+};
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AuthGate />
+    </AuthProvider>
   );
 }

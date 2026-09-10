@@ -116,3 +116,16 @@ export interface ActivityLog {
   targetType: 'TASK' | 'DIVISION' | 'MEMBER' | 'EVENT' | 'FILE';
   timestamp: string;
 }
+
+export interface AuthAccount {
+  userId: string;
+  email: string;
+  passwordHash: string; // base64 encoded untuk simulasi
+  createdAt: string;
+}
+
+export interface AuthSession {
+  userId: string;
+  email: string;
+  loginAt: string;
+}
