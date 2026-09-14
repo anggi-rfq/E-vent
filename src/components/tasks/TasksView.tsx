@@ -47,7 +47,7 @@ export const TasksView: React.FC<TasksViewProps> = ({ initialTaskId }) => {
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
   const [defaultStatusForNewTask, setDefaultStatusForNewTask] = useState<TaskStatus>('TODO');
 
-  const canCreateTask = currentUser.role !== 'MEMBER';
+  const canCreateTask = Boolean(currentUser?.role && currentUser.role !== 'MEMBER');
 
   // If initialTaskId provided, select it
   React.useEffect(() => {

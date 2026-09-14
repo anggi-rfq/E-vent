@@ -61,8 +61,8 @@ export const RegisterPage: React.FC = () => {
     if (!validate()) return;
 
     setIsLoading(true);
-    await new Promise(r => setTimeout(r, 700));
-    const result = register(form.name.trim(), form.email.trim(), form.password, form.role);
+    // Remove the artificial delay
+    const result = await register(form.name.trim(), form.email.trim(), form.password, form.role);
     setIsLoading(false);
 
     if (!result.success) {

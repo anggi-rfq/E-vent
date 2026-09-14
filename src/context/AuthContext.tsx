@@ -17,7 +17,7 @@ interface AuthContextType {
   authPage: 'login' | 'register';
   setAuthPage: (page: 'login' | 'register') => void;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  register: (name: string, email: string, password: string, role: UserRole) => { success: boolean; error?: string };
+  register: (name: string, email: string, password: string, role: UserRole) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
 }
 
@@ -106,27 +106,47 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
 
         const user = result.data;
+        const normalizedUser: User = {
+          id: String(user.id),
+          name: user.name || 'Pengguna',
+          email: user.email,
+          avatar: user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
+          role: (user.role as UserRole) || 'MEMBER',
+          phone: user.phone || undefined,
+          department: user.department || undefined,
+          createdAt: user.created_at || user.createdAt || new Date().toISOString(),
+          updatedAt: user.updated_at || user.updatedAt,
+        };
 
         // Simpan session di browser
         const session: AuthSession = {
-          userId: String(user.id),
-          email: user.email,
+          userId: normalizedUser.id,
+          email: normalizedUser.email,
           loginAt: new Date().toISOString(),
         };
 
-        localStorage.setItem(
-          AUTH_SESSION_KEY,
-          JSON.stringify(session)
-        );
+        localStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(session));
+        localStorage.setItem('panitiahub_user', JSON.stringify(normalizedUser));
+        localStorage.setItem('panitiahub_data_v1_current_user_id', normalizedUser.id);
 
-        localStorage.setItem(
-          'panitiahub_data_v1_current_user_id',
-          String(user.id)
-        );
+        // Pastikan juga disinkronkan ke daftar users di localStorage
+        try {
+          const savedUsers = localStorage.getItem(USERS_KEY);
+          const usersList: User[] = savedUsers ? JSON.parse(savedUsers) : [...INITIAL_USERS];
+          const existIndex = usersList.findIndex(
+            u => String(u.id) === normalizedUser.id || u.email.toLowerCase() === normalizedUser.email.toLowerCase()
+          );
+          if (existIndex >= 0) {
+            usersList[existIndex] = { ...usersList[existIndex], ...normalizedUser };
+          } else {
+            usersList.unshift(normalizedUser);
+          }
+          localStorage.setItem(USERS_KEY, JSON.stringify(usersList));
+        } catch { /* ignore */ }
 
         // Update state aplikasi
         setIsAuthenticated(true);
-        setCurrentUserId(String(user.id));
+        setCurrentUserId(normalizedUser.id);
 
         return {
           success: true,
@@ -143,71 +163,80 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     []
   );
 
-  const register = useCallback((
+  const register = useCallback(async (
     name: string,
     email: string,
     password: string,
     role: UserRole
-  ): { success: boolean; error?: string } => {
-    // Cek apakah email sudah terdaftar
-    const accountsStr = localStorage.getItem(AUTH_ACCOUNTS_KEY);
-    const accounts: AuthAccount[] = accountsStr ? JSON.parse(accountsStr) : [];
+  ): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const response = await fetch('http://localhost:3001/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          role,
+        }),
+      });
 
-    if (accounts.find(a => a.email.toLowerCase() === email.toLowerCase())) {
-      return { success: false, error: 'Email sudah terdaftar. Silakan gunakan email lain.' };
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        return {
+          success: false,
+          error: result.message || 'Email sudah terdaftar atau terjadi kesalahan server.',
+        };
+      }
+
+      const user = result.data;
+      const normalizedUser: User = {
+        id: String(user.id),
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
+        role: (user.role as UserRole) || 'MEMBER',
+        phone: user.phone || undefined,
+        department: user.department || undefined,
+        createdAt: user.created_at || user.createdAt || new Date().toISOString(),
+        updatedAt: user.updated_at || user.updatedAt,
+      };
+
+      // Simpan session (Auto login)
+      const session: AuthSession = {
+        userId: normalizedUser.id,
+        email: normalizedUser.email,
+        loginAt: new Date().toISOString(),
+      };
+
+      localStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(session));
+      localStorage.setItem('panitiahub_user', JSON.stringify(normalizedUser));
+      localStorage.setItem('panitiahub_data_v1_current_user_id', normalizedUser.id);
+
+      // Simpan juga ke users list lokal sementara (context nanti akan fetch dari db)
+      try {
+        const savedUsers = localStorage.getItem(USERS_KEY);
+        const usersList: User[] = savedUsers ? JSON.parse(savedUsers) : [...INITIAL_USERS];
+        usersList.unshift(normalizedUser);
+        localStorage.setItem(USERS_KEY, JSON.stringify(usersList));
+      } catch { /* ignore */ }
+
+      setIsAuthenticated(true);
+      setCurrentUserId(normalizedUser.id);
+
+      return { success: true };
+    } catch (error) {
+      console.error('Register error:', error);
+      return { success: false, error: 'Tidak dapat terhubung ke server.' };
     }
-
-    // Buat user baru
-    const newUserId = `user-${Date.now()}`;
-    const avatarSeeds = [
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=150&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
-    ];
-    const randomAvatar = avatarSeeds[Math.floor(Math.random() * avatarSeeds.length)];
-
-    const newUser: User = {
-      id: newUserId,
-      name,
-      email,
-      avatar: randomAvatar,
-      role,
-      createdAt: new Date().toISOString(),
-    };
-
-    // Simpan user ke users list
-    const savedUsers = localStorage.getItem(USERS_KEY);
-    const users: User[] = savedUsers ? JSON.parse(savedUsers) : INITIAL_USERS;
-    users.push(newUser);
-    localStorage.setItem(USERS_KEY, JSON.stringify(users));
-
-    // Buat akun auth
-    const newAccount: AuthAccount = {
-      userId: newUserId,
-      email,
-      passwordHash: hashPassword(password),
-      createdAt: new Date().toISOString(),
-    };
-    accounts.push(newAccount);
-    localStorage.setItem(AUTH_ACCOUNTS_KEY, JSON.stringify(accounts));
-
-    // Auto login
-    const session: AuthSession = {
-      userId: newUserId,
-      email,
-      loginAt: new Date().toISOString(),
-    };
-    localStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(session));
-    localStorage.setItem('panitiahub_data_v1_current_user_id', newUserId);
-
-    setIsAuthenticated(true);
-    setCurrentUserId(newUserId);
-    return { success: true };
   }, []);
 
   const logout = useCallback(() => {
     localStorage.removeItem(AUTH_SESSION_KEY);
+    localStorage.removeItem('panitiahub_user');
     setIsAuthenticated(false);
     setCurrentUserId(null);
     setAuthPage('login');

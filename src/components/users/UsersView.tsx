@@ -29,7 +29,7 @@ export const UsersView: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [avatar, setAvatar] = useState('');
 
-  const isAdmin = currentUser.role === 'ADMIN';
+  const isAdmin = currentUser?.role === 'ADMIN';
 
   const filteredUsers = users.filter((u) => {
     const matchesRole = roleFilter === 'ALL' || u.role === roleFilter;
@@ -91,7 +91,7 @@ export const UsersView: React.FC = () => {
   };
 
   const handleDelete = (userId: string, userName: string) => {
-    if (userId === currentUser.id) {
+    if (userId === currentUser?.id) {
       alert('Anda tidak dapat menghapus akun yang sedang Anda gunakan saat ini.');
       return;
     }
@@ -161,7 +161,7 @@ export const UsersView: React.FC = () => {
       {/* Users Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredUsers.map((user) => {
-          const isMe = user.id === currentUser.id;
+          const isMe = user.id === currentUser?.id;
 
           return (
             <div

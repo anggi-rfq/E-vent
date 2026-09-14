@@ -21,8 +21,8 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
 }) => {
   const { activeEvent, divisions, users, members, addTask, updateTask, currentUser } = useApp();
 
-  const eventDivisions = divisions.filter((d) => d.eventId === activeEvent?.id);
-  const eventMembers = members.filter((m) => m.eventId === activeEvent?.id);
+  const eventDivisions = React.useMemo(() => divisions.filter((d) => d.eventId === activeEvent?.id), [divisions, activeEvent?.id]);
+  const eventMembers = React.useMemo(() => members.filter((m) => m.eventId === activeEvent?.id), [members, activeEvent?.id]);
 
   const [title, setTitle] = useState(taskToEdit?.title || '');
   const [description, setDescription] = useState(taskToEdit?.description || '');
@@ -47,7 +47,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
       setDeadline(taskToEdit.deadline);
       setProgress(taskToEdit.progress);
       setEstimatedHours(taskToEdit.estimatedHours || 8);
-    } else {
+    } else if (isOpen) {
       setTitle('');
       setDescription('');
       setDivisionId(defaultDivisionId || eventDivisions[0]?.id || '');

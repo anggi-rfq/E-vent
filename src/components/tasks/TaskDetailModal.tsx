@@ -73,10 +73,10 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
   const taskFiles = attachments.filter((a) => a.taskId === task.id);
 
   const canEditOrReview = 
-    currentUser.role === 'ADMIN' || 
-    currentUser.role === 'EVENT_MANAGER' || 
-    currentUser.role === 'COORDINATOR' ||
-    currentUser.id === task.assignedTo;
+    currentUser?.role === 'ADMIN' || 
+    currentUser?.role === 'EVENT_MANAGER' || 
+    currentUser?.role === 'COORDINATOR' ||
+    currentUser?.id === task.assignedTo;
 
   const handleSaveProgress = (e: React.FormEvent) => {
     e.preventDefault();

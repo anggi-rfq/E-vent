@@ -62,8 +62,9 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   };
 
-  const canCreateTask = currentUser.role !== 'MEMBER';
-  const canCreateEvent = currentUser.role === 'ADMIN' || currentUser.role === 'EVENT_MANAGER';
+  const userRole = currentUser?.role;
+  const canCreateTask = Boolean(userRole && userRole !== 'MEMBER');
+  const canCreateEvent = Boolean(userRole === 'ADMIN' || userRole === 'EVENT_MANAGER');
 
   const navItems = [
     { id: 'dashboard' as NavTab, label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
@@ -73,7 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'attachments' as NavTab, label: 'Lampiran Berkas', icon: <Paperclip className="w-4 h-4" /> },
   ];
 
-  if (currentUser.role === 'ADMIN') {
+  if (userRole === 'ADMIN') {
     navItems.push({ id: 'users' as NavTab, label: 'Kelola Pengguna', icon: <Users className="w-4 h-4" /> });
   }
 
@@ -221,17 +222,35 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="bg-white border border-slate-200 hover:border-slate-300 rounded-xl px-2.5 sm:px-3 py-1 flex items-center gap-2 sm:gap-2.5 transition-colors shadow-xs text-left"
                 title="Klik untuk mengganti akun / role"
               >
-                <img
-                  src={currentUser.avatar}
-                  alt={currentUser.name}
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg object-cover border border-slate-200"
-                />
-                <div className="hidden md:block">
-                  <p className="text-xs font-semibold text-slate-900 max-w-[120px] truncate leading-tight">
-                    {currentUser.name}
-                  </p>
-                  <RoleBadge role={currentUser.role} size="sm" />
-                </div>
+                {currentUser ? (
+                  <>
+                    <img
+                      src={currentUser.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80'}
+                      alt={currentUser.name || 'User'}
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg object-cover border border-slate-200"
+                    />
+                    <div className="hidden md:block">
+                      <p className="text-xs font-semibold text-slate-900 max-w-[120px] truncate leading-tight">
+                        {currentUser.name || 'Pengguna'}
+                      </p>
+                      {currentUser.role ? (
+                        <RoleBadge role={currentUser.role} size="sm" />
+                      ) : (
+                        <span className="text-[10px] text-slate-400 font-medium">Memuat...</span>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex items-center gap-2 py-0.5">
+                    <div className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400">
+                      <Users className="w-4 h-4" />
+                    </div>
+                    <div className="hidden md:block">
+                      <p className="text-xs font-semibold text-slate-700">Tamu</p>
+                      <span className="text-[10px] text-slate-400 font-medium">Belum Login</span>
+                    </div>
+                  </div>
+                )}
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400 hidden sm:block" />
               </button>
             </div>

@@ -28,7 +28,7 @@ export const EventTimelineView: React.FC = () => {
   const [newTargetDate, setNewTargetDate] = useState('2026-09-15');
   const [newCategory, setNewCategory] = useState<EventMilestone['category']>('PREPARATION');
 
-  const canManageTimeline = currentUser.role === 'ADMIN' || currentUser.role === 'EVENT_MANAGER';
+  const canManageTimeline = currentUser?.role === 'ADMIN' || currentUser?.role === 'EVENT_MANAGER';
 
   const eventMilestones = milestones.filter(m => m.eventId === activeEvent?.id);
   const completedMilestones = eventMilestones.filter(m => m.isCompleted).length;

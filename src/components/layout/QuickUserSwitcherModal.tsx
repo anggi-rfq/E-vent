@@ -54,7 +54,7 @@ export const QuickUserSwitcherModal: React.FC<QuickUserSwitcherModalProps> = ({
     >
       <div className="space-y-2.5 py-1">
         {users.map((user) => {
-          const isSelected = user.id === currentUser.id;
+          const isSelected = user.id === currentUser?.id;
 
           return (
             <button

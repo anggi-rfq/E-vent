@@ -34,7 +34,7 @@ export const EventsView: React.FC = () => {
   const [eventToEdit, setEventToEdit] = useState<Event | null>(null);
   const [subView, setSubView] = useState<'timeline' | 'all-events'>('timeline');
 
-  const canManageEvents = currentUser.role === 'ADMIN' || currentUser.role === 'EVENT_MANAGER';
+  const canManageEvents = currentUser?.role === 'ADMIN' || currentUser?.role === 'EVENT_MANAGER';
 
   const handleEdit = (event: Event, e: React.MouseEvent) => {
     e.stopPropagation();

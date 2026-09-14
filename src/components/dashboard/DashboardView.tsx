@@ -20,7 +20,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 }) => {
   const { currentUser } = useApp();
 
-  switch (currentUser.role) {
+  switch (currentUser?.role) {
     case 'ADMIN':
       return (
         <AdminDashboard
